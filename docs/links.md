@@ -1,5 +1,9 @@
 # Links
 
+## "Hello World!" with the Longan Nano
+
+<https://www.sigmdel.ca/michel/ha/gd32v/longan_nano_01_en.html>
+
 ## OpenRPNCalc
 
 <https://github.com/apoluekt/OpenRPNCalc>
@@ -9,6 +13,8 @@
 <https://gitlab.com/os-q/rv-link>
 
 <https://github.com/michahoiting/rv-link>
+
+<http://caxapa.ru/1016438.html>
 
 ## SIPEED LONGAN Nano files
 
@@ -23,3 +29,15 @@
 ## Everything You Need to Know About std::variant from C++17
 
 <https://www.cppstories.com/2018/06/variant/>
+
+## Expression Evaluation
+
+<https://www.geeksforgeeks.org/expression-evaluation/>
+
+## Bare-metal RISC-V Development with the GD32VF103CB
+
+<https://vivonomicon.com/2020/02/11/bare-metal-risc-v-development-with-the-gd32vf103cb/>
+
+## Sipeed Longan Nano - RISC-V GD32VF103CBT6 Development Board
+
+<https://gist.github.com/BjoernSchilberg/2547f9dfa749b89ed53d2dafafc589ec>
