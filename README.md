@@ -1,3 +1,3 @@
 # longancalc
 
-## Longan Nano calculator work in progress
+## Longan Nano Calculator work in progress
