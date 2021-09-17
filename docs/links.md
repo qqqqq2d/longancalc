@@ -41,3 +41,7 @@
 ## Sipeed Longan Nano - RISC-V GD32VF103CBT6 Development Board
 
 <https://gist.github.com/BjoernSchilberg/2547f9dfa749b89ed53d2dafafc589ec>
+
+## xshige's beta notes
+
+<https://beta-notes.way-nifty.com/blog/2020/05/post-b259b1.html>
