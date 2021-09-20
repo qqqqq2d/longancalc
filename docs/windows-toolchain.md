@@ -1,4 +1,4 @@
-# Building newer C++ g++10.2.0 toolchain for longan nano
+# Building newer C++ 10.2.0 Windows toolchain for longan nano
 
 ## Building on Ubuntu
 
