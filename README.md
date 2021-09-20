@@ -7,3 +7,5 @@
 [Setting up RV-Link serial port](./docs/rv-link.md)
 
 [Building newer C++ 10.2.0 Windows toolchain for longan nano](./docs/windows-toolchain.md)
+
+[Building newer C++ 10.2.0 Linux toolchain for longan nano](./docs/linux-toolchain.md)

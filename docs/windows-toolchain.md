@@ -36,7 +36,7 @@ cd ~/zt-ng/bin/
 # “Target options” submenu. Select “Build a multilib toolchain”.
 # “C-Library” submenu. Here select “Newlib” as the C library
 # Version of newlib set to 3.0.0,
-# because "%USERPROFILE%\.platformio\packages\toolchain-gd32vold\riscv-nuclei-elf\include\_newlib_version.h"
+# because "%USERPROFILE%\.platformio\packages\toolchain-gd32v.old\riscv-nuclei-elf\include\_newlib_version.h"
 # version is 3.0.0
 #  “Enable newlib nano variant”
 # “C Compiler” submenu, scroll to the bottom and select “C++”
@@ -86,6 +86,8 @@ move x-tools\HOST-x86_64-w64-mingw32\riscv32-unknown-elf toolchain-gd32v
 Xcopy toolchain-gd32v.old\riscv-nuclei-elf toolchain-gd32v\riscv32-unknown-elf /E /H /C /I /Y
 copy toolchain-gd32v.old\.piopm toolchain-gd32v
 copy toolchain-gd32v.old\package.json toolchain-gd32v
+REM move old toolchain to upper directory for avoiding conflict since .piopm and package.json files are the same
+move toolchain-gd32v.old ..\
 ```
 
 ## Using On Windows
