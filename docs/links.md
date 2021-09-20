@@ -1,5 +1,9 @@
 # Links
 
+## Nuclei-SDK
+
+<https://doc.nucleisys.com/nuclei_sdk/index.html>
+
 ## "Hello World!" with the Longan Nano
 
 <https://www.sigmdel.ca/michel/ha/gd32v/longan_nano_01_en.html>
@@ -45,3 +49,7 @@
 ## xshige's beta notes
 
 <https://beta-notes.way-nifty.com/blog/2020/05/post-b259b1.html>
+
+## LonganNanoTest
+
+<https://github.com/MuellerA/LonganNanoTest>
