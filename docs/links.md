@@ -4,6 +4,8 @@
 
 <https://doc.nucleisys.com/nuclei_sdk/index.html>
 
+<https://github.com/Nuclei-Software/nuclei-sdk>
+
 ## "Hello World!" with the Longan Nano
 
 <https://www.sigmdel.ca/michel/ha/gd32v/longan_nano_01_en.html>
@@ -53,3 +55,11 @@
 ## LonganNanoTest
 
 <https://github.com/MuellerA/LonganNanoTest>
+
+## Longan Nano (GD32VF103)
+
+<https://www.susa.net/wordpress/2019/10/longan-nano-gd32vf103/>
+
+## HOW TO SET UP A KEYPAD ON AN ARDUINO
+
+<https://www.circuitbasics.com/how-to-set-up-a-keypad-on-an-arduino/>
