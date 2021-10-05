@@ -2,6 +2,8 @@
 
 ## Nuclei-SDK
 
+<https://doc.nucleisys.com/nuclei_sdk/design/board/gd32vf103c_longan_nano.html>
+
 <https://doc.nucleisys.com/nuclei_sdk/index.html>
 
 <https://github.com/Nuclei-Software/nuclei-sdk>
