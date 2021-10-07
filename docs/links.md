@@ -65,3 +65,16 @@
 ## HOW TO SET UP A KEYPAD ON AN ARDUINO
 
 <https://www.circuitbasics.com/how-to-set-up-a-keypad-on-an-arduino/>
+
+## KiCad sample
+
+<https://github.com/covah901/KUSOboard>
+
+## Programming the GD32V Longan Nano (Mika Tuupola)
+
+<https://appelsiini.net/2020/programming-gd32v-longan-nano/>
+
+<https://github.com/tuupola/gd32v_examples>
+
+<https://github.com/tuupola/hagl_gd32v_mipi>
+
