@@ -1,4 +1,4 @@
-#include <Arduino.h>       
+#include <Arduino.h>     
 #include "uart.h"
 extern "C" {
 #include "lcd/lcd.h"
@@ -6,69 +6,58 @@ extern "C" {
 #include <stdint.h>
 }
 
-// Keypad Scanning without Library
-// ee-diary.blogspot.com
 
-const int rows = 4; // set display to four rows
-const int cols = 4; // set display to three columns
+#define CYCLES         4  // 2 yields a heartbeat effect
+#define SHORT_DELAY  100  // 1/10 second
+#define LONG_DELAY  100  
+
+
+const int rows = 8; // set display to four rows
+const int cols = 5; // set display to three columns
 
 const char keys[rows][cols] = {
-              {'1','2','3','A'},
-               {'4','5','6','B'},
-               {'7','8','9','C'},
-               {'*','0','#','D'}
+              {'h','M','N','Q','P'},
+               {'g','E','F','G','H'},
+               {'f','I','J','K','L'},
+               {'e','M','N','O','C'},
+               {'d','7','8','9','*'},
+               {'c','4','5','6','-'},
+               {'b','1','2','3','+'},
+               {'a','0','.','S','='}
                };
                
-int rowPins[rows] = {PA4, PA5, PA6, PA7};
-int colPins[cols] = {PB0, PB1, PB10, PB11};
-
-static void init_uart0(void)
-{
-   // enable GPIO clock 
-   rcu_periph_clock_enable(RCU_GPIOA);
-   // enable USART0 clock 
-   rcu_periph_clock_enable(RCU_USART0);  
-   // configure USART0
-   usart_deinit(USART0);
-   usart_baudrate_set(USART0, 115200U);
-   usart_word_length_set(USART0, USART_WL_8BIT);
-   usart_stop_bit_set(USART0, USART_STB_1BIT);
-   usart_parity_config(USART0, USART_PM_NONE);
-   usart_hardware_flow_rts_config(USART0, USART_RTS_DISABLE);
-   usart_hardware_flow_cts_config(USART0, USART_CTS_DISABLE);
-   usart_receive_config(USART0, USART_RECEIVE_ENABLE);
-   usart_transmit_config(USART0, USART_TRANSMIT_ENABLE);
-   usart_enable(USART0);
-}
+int rowPins[rows] = {PA0, PA3, PA4, PA11, PA6, PB14, PB13, PB12};
+int colPins[cols] = {PC15, PC14, PB8, PB10, PB11 };
 
 
+char buf[20];
+char ibuf[20];
 
-// the setup function runs once when you press reset or power the board
+int r_index;
+
 void setup() {
-    // enable GPIO clock 
+
+r_index =0 ;
+
    init_uart0();
-    char buf[64];
+   printf("\nlongancalc\n");
+
   // initialize LCD and clear the display to black 
   Lcd_Init();
   LCD_Clear(BLACK);
 
-  _put_char('T');
-  _put_char('E');
-  _put_char('R');
-  _put_char('E');
-  sprintf(buf, "ver:%s", __VERSION__);
+  sprintf(buf, "g++ ver::%s", __VERSION__);
   LCD_ShowString(0, 0, (u8 const *) buf, GBLUE);
-  BACK_COLOR = BLACK;
 
-    pinMode(PA4, INPUT_PULLUP);
-    digitalWrite(PA4, HIGH);    //turn on the pullups 
-    
+  sprintf(buf, "                   ");
+  LCD_ShowString(0, 16, (u8 const *) buf, GBLUE);
+
     for(char r = 0; r < rows; r++)
     {
          pinMode(rowPins[r], INPUT_PULLUP);    //set the row pins as input
          digitalWrite(rowPins[r], HIGH);    //turn on the pullups
     }
-   
+      
    for(char c = 0; c < cols; c++)
    {
          pinMode(colPins[c], OUTPUT);   //set the column pins as output
@@ -96,9 +85,39 @@ char getKey(){
       return k;
 }
 
-// the loop function runs over and over again forever
+
 void loop() 
 {
     char key = getKey();
+    if(key == 0) return;
+
     _put_char(key);
+
+    if(r_index>=18)
+    return;
+
+    if((key == 'C') && (r_index>0))
+    {
+      char cbuf[20];
+      sprintf(cbuf, "                   ");
+      LCD_ShowString(0, 16, (u8 const *) cbuf, GBLUE);
+      r_index--;      
+      buf[r_index] = '\0';
+    }
+    else if((key == 'L') && (r_index>0))
+    {
+      sprintf(buf, "                   ");
+      r_index=0;
+    }
+    else 
+    {
+      buf[r_index] = key;
+      ++r_index;    
+      buf[r_index] = '\0';
+    }
+    LCD_ShowString(0, 16, (u8 const *) buf, GBLUE);
+    sprintf(ibuf, "%d", r_index);
+    LCD_ShowString(0, 32, (u8 const *) ibuf, GBLUE);
+
+    
 }

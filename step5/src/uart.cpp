@@ -1,6 +1,7 @@
 #include <Arduino.h>
+#include "uart.h"
 
-static void init_uart0(void)
+extern "C" void init_uart0(void)
 {
    // enable GPIO clock 
    rcu_periph_clock_enable(RCU_GPIOA);
