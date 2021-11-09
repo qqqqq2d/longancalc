@@ -4,6 +4,7 @@ extern "C" {
 #include "lcd/lcd.h"
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 }
 
 
@@ -32,6 +33,9 @@ int colPins[cols] = {PC15, PC14, PB8, PB13, PB11 };
 
 char buf[20];
 char ibuf[20];
+
+char a_buf[20];
+char b_buf[20];
 
 int r_index;
 
@@ -87,12 +91,50 @@ char getKey(){
       return k;
 }
 
+constexpr auto allowed =".0123456789+-*/=CL";
+
+double a;
+double b;
+double result;
+
 
 void loop() 
 {
-    char key = uart_rbyte();
-    // char key = getKey();
+     char key = uart_rbyte();
+    //char key = getKey();
     if(key == 0) return;
+    bool found = false;
+    for (size_t i = 0; i < 18; i++)
+    {
+      if(allowed[i]==key)
+        found=true;
+    }
+    
+    if (!found)
+      return;
+    
+    if(key == '+')
+    {
+      strcpy(a_buf, buf);
+      //printf("a:%s\n", a_buf);
+    }
+
+    if(key == '=')
+    {
+       auto pos = strlen(a_buf);
+       strcpy(b_buf, buf+pos+1);
+           //printf("buf:%s len:%d b_buf:%s\n", buf, pos, b_buf);
+      char *ptr;
+      a = strtod(a_buf, &ptr);
+      b = strtod(b_buf, &ptr);
+      result = a+b;
+      printf("=%.10g\n", result);
+      sprintf(buf, "                   ");
+      r_index = 0;
+      return;
+    }
+
+
 
     _put_char(key);
 
