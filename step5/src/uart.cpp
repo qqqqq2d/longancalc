@@ -28,3 +28,8 @@ extern "C" int _put_char(int ch) // used by printf
      }
      return ch;
 }
+
+extern "C" uint8_t uart_rbyte() {
+    while (usart_flag_get(USART0, USART_FLAG_RBNE) == RESET);
+    return (uint8_t) usart_data_receive(USART0);
+}

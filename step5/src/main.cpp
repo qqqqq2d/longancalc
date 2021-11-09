@@ -19,15 +19,15 @@ const char keys[rows][cols] = {
               {'h','M','N','Q','P'},
                {'g','E','F','G','H'},
                {'f','I','J','K','L'},
-               {'e','M','N','O','C'},
+               {'e','M','(',')','C'},
                {'d','7','8','9','*'},
                {'c','4','5','6','-'},
                {'b','1','2','3','+'},
                {'a','0','.','S','='}
                };
                
-int rowPins[rows] = {PA0, PA3, PA4, PA11, PA6, PB14, PB13, PB12};
-int colPins[cols] = {PC15, PC14, PB8, PB10, PB11 };
+int rowPins[rows] = {PA0, PA4, PA3, PA11, PA6, PB14, PB10, PB12};
+int colPins[cols] = {PC15, PC14, PB8, PB13, PB11 };
 
 
 char buf[20];
@@ -62,6 +62,8 @@ r_index =0 ;
    {
          pinMode(colPins[c], OUTPUT);   //set the column pins as output
    }
+
+
 }
 
 
@@ -88,7 +90,8 @@ char getKey(){
 
 void loop() 
 {
-    char key = getKey();
+    char key = uart_rbyte();
+    // char key = getKey();
     if(key == 0) return;
 
     _put_char(key);

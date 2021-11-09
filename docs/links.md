@@ -78,3 +78,6 @@
 
 <https://github.com/tuupola/hagl_gd32v_mipi>
 
+## Sample code
+
+<https://lab.las3.de/gitlab/lwc/compare/blob/7c967ca57ed78bd85112b7f1e242351bbff1bd50/templates/longan-nano/src/main.ino>
