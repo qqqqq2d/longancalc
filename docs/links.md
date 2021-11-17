@@ -34,10 +34,6 @@
 
 <https://softwareengineering.stackexchange.com/questions/86914/whats-the-best-structure-for-a-repository>
 
-## Everything You Need to Know About std::variant from C++17
-
-<https://www.cppstories.com/2018/06/variant/>
-
 ## Expression Evaluation
 
 <https://www.geeksforgeeks.org/expression-evaluation/>
@@ -81,3 +77,7 @@
 ## Sample code
 
 <https://lab.las3.de/gitlab/lwc/compare/blob/7c967ca57ed78bd85112b7f1e242351bbff1bd50/templates/longan-nano/src/main.ino>
+
+## Arduino on/off switch
+
+<https://forum.arduino.cc/t/switch-microcontroller-with-a-button-on-and-off/686521>
