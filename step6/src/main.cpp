@@ -16,6 +16,8 @@ extern "C" {
 const int rows = 8; // set display to four rows
 const int cols = 5; // set display to three columns
 
+int analogPin = PA3;
+
 const char keys[rows][cols] = {
               {'h','M','N','Q','P'},
                {'g','E','F','G','H'},
@@ -30,8 +32,9 @@ const char keys[rows][cols] = {
 //int rowPins[rows] = {PC14, PA4, PA3, PB15, PA6, PA12, PB10, PA8};
 //int colPins[cols] = {PC15, PA0, PB8, PA11, PB11 };
 
+//PA8 ei sobi r7-ks
 //                    r0   r1   r2   r3    r4   r5    r6    r7          
-int rowPins[rows] = {PC14, PA4, PA3, PB9, PA6, PB6, PB10, PB7};
+int rowPins[rows] = {PC14, PA4, PB4, PB9, PA6, PB6, PB10, PA11};
 
 //                    c0    c1    c2   c3    c4
 int colPins[cols] = {PC15, PA0, PB8, PB5, PB11 };
@@ -57,6 +60,11 @@ int r_index;
 void setup() {
 
 r_index =0 ;
+
+pinMode(PB7, INPUT_PULLUP);
+digitalWrite(PB7, HIGH);
+
+ pinMode(analogPin,INPUT_ANALOG);
 
    init_uart0();
    printf("\nlongancalc\n");
@@ -115,10 +123,22 @@ double result;
 
 void loop() 
 {
+    // if(digitalRead(PB7) == LOW)
+    // {
+    //     digitalWrite(LED_GREEN, LOW);
+    //     _put_char('W');
+    // }
     //char key = uart_rbyte();
+
     char key = getKey();
     _put_char(key);
+    if(key == 'H')
+    {
+      int val = analogRead(analogPin);  // read the input pin
+      printf("Analog read:%d\n", val);
+    }
 
+    // delay(2000); EI TOHI OLLA NII PIKK, kui klahve lugeda
     /*
     if(key == 0) return;
     bool found = false;
