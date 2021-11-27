@@ -61,10 +61,13 @@ void setup() {
 
 r_index =0 ;
 
-pinMode(PB7, INPUT_PULLUP);
-digitalWrite(PB7, HIGH);
+  pinMode(PB7, INPUT_PULLUP);
+  digitalWrite(PB7, HIGH);
 
- pinMode(analogPin,INPUT_ANALOG);
+  pinMode(analogPin,INPUT_ANALOG);
+
+  pinMode(LED_GREEN, OUTPUT);
+  digitalWrite(LED_GREEN, HIGH);
 
    init_uart0();
    printf("\nlongancalc\n");
@@ -73,11 +76,14 @@ digitalWrite(PB7, HIGH);
   Lcd_Init();
   LCD_Clear(BLACK);
 
-  sprintf(buf, "g++ ver::%s", __VERSION__);
+  //sprintf(buf, "g++ ver::%s", __VERSION__);
+  sprintf(buf, "1234567890123456789");
   LCD_ShowString(0, 0, (u8 const *) buf, GBLUE);
-
-  sprintf(buf, "                   ");
+  //sprintf(buf, "                   ");
   LCD_ShowString(0, 16, (u8 const *) buf, GBLUE);
+  LCD_ShowString(0, 16*2, (u8 const *) buf, GBLUE);
+  LCD_ShowString(0, 16*3, (u8 const *) buf, GBLUE);
+  LCD_ShowString(0, 16*4, (u8 const *) buf, GBLUE);
 
     for(char r = 0; r < rows; r++)
     {
@@ -123,11 +129,11 @@ double result;
 
 void loop() 
 {
-    // if(digitalRead(PB7) == LOW)
-    // {
-    //     digitalWrite(LED_GREEN, LOW);
-    //     _put_char('W');
-    // }
+    if(digitalRead(PB7) == LOW)
+    {
+        digitalWrite(LED_GREEN, LOW);
+        _put_char('W');
+    }
     //char key = uart_rbyte();
 
     char key = getKey();

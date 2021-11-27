@@ -81,3 +81,7 @@
 ## Arduino on/off switch
 
 <https://forum.arduino.cc/t/switch-microcontroller-with-a-button-on-and-off/686521>
+
+## Seven Habits of Successful 2-Layer Board Designers
+
+<https://www.signalintegrityjournal.com/blogs/12-fundamentals/post/1207-seven-habits-of-successful-2-layer-board-designers>
