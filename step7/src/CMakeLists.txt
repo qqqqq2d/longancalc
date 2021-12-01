@@ -14,11 +14,8 @@ IF(UNIX)
     link_directories("${LIBS_PATH}/unix/pdcurses/")
 ELSE (WIN32)
     set(CMAKE_CXX_FLAGS "/std:c++latest")
-
-    include_directories("${LIBS_PATH}/include")
-    include_directories("${LIBS_PATH}/include/pdcurses")
-
-    link_directories("${LIBS_PATH}/windows/pdcurses/")
+    include_directories("$ENV{VCPKG}/installed/x64-windows/include")
+    link_directories("$ENV{VCPKG}/installed/x64-windows/lib/")
 ENDIF (UNIX)
 
 add_executable (calc main.cpp)
