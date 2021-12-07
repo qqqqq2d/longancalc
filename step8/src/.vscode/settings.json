@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "limits": "cpp",
+        "hash_map": "cpp",
+        "algorithm": "cpp"
+    }
+}
