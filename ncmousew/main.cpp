@@ -1,6 +1,9 @@
 #include <curses.h>
 #include <iostream>
 #include <cstring>
+#include <iostream>
+#include <chrono>
+#include <thread>
 
 enum class init_result
 {
@@ -116,10 +119,23 @@ void fill_grid()
 	refresh();
 }
 
+
+char buf[20];
+char ibuf[20];
+
+char a_buf[20];
+char b_buf[20];
+
+int r_index;
+
+double a;
+double b;
+double result;
+
 int main()
 {
 
-
+	using namespace std::chrono_literals;
 	auto init_r = init();
 	int height = 6;
 	int width = 20;
@@ -133,6 +149,10 @@ int main()
 	constexpr int debug_win_width = 40;
 	WINDOW* debug_win = newwin(debug_win_height, debug_win_width, 1, startx);
 	rectangle_around_window(debug_win_height, debug_win_width, 1, startx, "DEBUG");
+	constexpr int calc_win_height = 5;
+	constexpr int calc_win_width = 20;
+	WINDOW* local_win = newwin(calc_win_height, calc_win_width, 1, 5);
+	rectangle_around_window(calc_win_height, calc_win_width, 1, 5, "CALC");
 	refresh();
 	scrollok(debug_win, TRUE);
 	mvwprintw(debug_win, 0, 0, "Ver:%s", __VERSION__);
@@ -147,17 +167,20 @@ int main()
 	mvwprintw(debug_win, 1, 0, mouse_str.c_str());
 	wrefresh(debug_win);
 
+	char key;
+	bool key_pressed = false;
 	while(true)
 	{
 		MEVENT event;
 		int ch = getch();
+		key = 0;
 		if (ch == KEY_MOUSE)
 		{
 			while (getmouse(&event) != ERR)
 			{
 				mvwprintw(debug_win, 3, 0, "y:%d, x:%d   ", event.y, event.x);
 				mvwprintw(debug_win, 4, 0, "bstate:0x%08lx dec:%d                 ", event.bstate, event.bstate);
-				if(event.bstate == (unsigned)button::LEFT)
+				if(event.bstate == (unsigned)button::LEFT && !key_pressed)
 				{
 					mvwprintw(debug_win, 5, 0, "LEFT");
 					auto y =(event.y-keyb_starty)/row_h;
@@ -165,6 +188,10 @@ int main()
 					auto x = event.x/col_w;
 					if(x>=cols) x = cols-1;
 					mvwprintw(debug_win, 6, 0, "y:%d, x:%d %c", y, x, keys[y][x]);
+					key = keys[y][x];
+					key_pressed = true;
+					std::this_thread::sleep_for(100ms);
+					key_pressed = false;
 				}
 				else if(event.bstate == (unsigned)button::RIGHT)
 					mvwprintw(debug_win, 5, 0, "RIGHT");
@@ -179,7 +206,106 @@ int main()
 			{
 				break;
 			}
+			key = ch;
 		}
+		if(key == 0) continue;
+		mvwprintw(debug_win, 7, 0, "key:%c", key);
+		wrefresh(debug_win);
+
+		constexpr auto allowed =".0123456789+-*/=CLq";
+
+
+
+                bool found = false;
+                for (size_t i = 0; i < 18; i++)
+                {
+                        if(allowed[i]==key)
+                                found=true;
+                        if(key == 127 || key == 10)
+                                found=true;
+                }
+    
+                if (!found)
+                        continue;
+				char fun;
+                if(key == '+' || key == '*' || key == '-' || key == '/')
+                {
+					fun = key;
+					strcpy(a_buf, buf);
+					//printf("a:%s\n", a_buf);
+                }
+
+                if(key == '=' || key == 10)
+                {
+					auto pos = strlen(a_buf);
+					strcpy(b_buf, buf+pos+1);
+							//printf("buf:%s len:%d b_buf:%s\n", buf, pos, b_buf);
+					char *ptr;
+					a = strtod(a_buf, &ptr);
+					b = strtod(b_buf, &ptr);
+					if (fun=='+')
+					{
+							result = a+b;
+					}
+					else if (fun=='*')
+					{
+							result = a*b;
+					}
+					else if (fun=='-')
+					{
+							result = a-b;
+					}
+					else if (fun=='/')
+					{
+							result = a/b;
+					}
+					auto count = width - r_index;
+					for (size_t i = 0; i < count; i++)
+					{
+							mvwaddch(local_win,0,r_index+i, ' ');
+					}
+					
+					mvwprintw(local_win, 1,0, "%.10g\n", result);
+					r_index = 0;
+					wrefresh(local_win);
+					continue; 
+                }
+
+                if(r_index>=18)
+                        continue;
+
+                if((key == 'C' || key == 127) && (r_index>0))
+                {
+                        r_index--; 
+                        mvwaddch(local_win,0,r_index, ' '); 
+                        wmove(local_win, 0, r_index);                   
+                        buf[r_index] = '\0';                        
+                        wrefresh(local_win);
+                        continue;                       
+                }
+                else if((key == 'L') && (r_index>0))
+                {
+                        r_index=0;
+                        mvwprintw(local_win,0,0,"                   ");
+                        wmove(local_win, 0, r_index);
+                        wrefresh(local_win);
+                        continue; 
+                }
+                else 
+                {
+                        buf[r_index] = key;
+                        mvwaddch(local_win,0,r_index, key);
+                        ++r_index;    
+                        buf[r_index] = '\0';
+                }
+
+                //char buf_print[20];
+                //sprintf(buf_print, "%c", key);
+                //wprintw(local_win, "%s", buf_print);
+
+                //wprintw(local_win, "%d123456789123456789\n", i);
+
+                wrefresh(local_win);
 	}
 
 	printf("\033[?1003l\n"); // Disable mouse movement events, as l = low
