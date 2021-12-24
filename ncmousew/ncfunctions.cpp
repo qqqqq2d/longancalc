@@ -13,7 +13,7 @@ void rectangle(int y1, int x1, int y2, int x2)
 	mvaddch(y2, x2, ACS_LRCORNER);
 }
 
-void draw_grid(int y1, int x1, int y2, int x2, int columns, int rows)
+void draw_keyboard_grid(int y1, int x1, int y2, int x2, int columns, int rows)
 {
 	rectangle(y1, x1, y2, x2);
 	auto col_width = (x2 - x1)/columns;
