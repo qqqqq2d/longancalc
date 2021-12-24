@@ -53,7 +53,6 @@ void fill_keyboard_grid()
 
 
 char buf[20];
-char ibuf[20];
 
 char a_buf[20];
 char b_buf[20];
@@ -66,6 +65,8 @@ double result;
 
 WINDOW* debug_win;
 MEVENT event;
+
+bool filter_keys(char key);
 
 void show_debug_info(int x, int y)
 {
@@ -112,8 +113,8 @@ int main()
 		{
 			while (getmouse(&event) != ERR)
 			{
-				int y;
-				int x;
+				int y = 0;
+				int x = 0;
 
 				if(event.bstate == (unsigned)button::LEFT)
 				{
@@ -138,15 +139,7 @@ int main()
 		mvwprintw(debug_win, 7, 0, "key:%c", key);
 		wrefresh(debug_win);
 
-		bool found = false;
-		for (size_t i = 0; i < 18; i++)
-		{
-				if(allowed[i]==key)
-						found=true;
-				if(key == 127 || key == 10)
-						found=true;
-		}
-
+		auto found = filter_keys(key);
 		if (!found)
 				continue;
 		char fun;
@@ -154,10 +147,9 @@ int main()
 		{
 			fun = key;
 			strcpy(a_buf, buf);
-			//printf("a:%s\n", a_buf);
 		}
 
-		if(key == '=' || key == 10)
+		if(key == '=' || key == '\n')
 		{
 			auto pos = strlen(a_buf);
 			strcpy(b_buf, buf+pos+1);
@@ -227,5 +219,18 @@ int main()
 	printf("\033[?1003l\n"); // Disable mouse movement events, as l = low
 	endwin();
 	return 0;
+}
+
+bool filter_keys(char key)
+{
+	bool found;
+	for (size_t i = 0; i < 18; i++)
+	{
+			if(allowed[i]==key)
+					found=true;
+			if(key == 127 || key == 10)
+					found=true;
+	}
+	return found;
 }
 

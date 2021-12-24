@@ -16,10 +16,10 @@ constexpr auto col_w = (keyb_grid_width/cols);
 constexpr auto row_h = (keyb_grid_height/rows);
 
 constexpr char keys[rows][cols] = {
-	{'h','M','N','Q','P'},
-	{'g','E','F','G','H'},
-	{'f','I','J','K','L'},
-	{'e','M','(',')','C'},
+	{'h','M','N','Q','H'},
+	{'g','E','F','G','L'},
+	{'f','I','J','K','C'},
+	{'e','M','(',')','/'},
 	{'d','7','8','9','*'},
 	{'c','4','5','6','-'},
 	{'b','1','2','3','+'},
