@@ -13,20 +13,6 @@ constexpr int debug_win_width = 40;
 constexpr int debug_win_startx = 49;
 
 
-constexpr auto col_w = (keyb_grid_width/cols);
-constexpr auto row_h = (keyb_grid_height/rows);
-
-constexpr char keys[rows][cols] = {
-	{'h','M','N','Q','H'},
-	{'g','E','F','G','L'},
-	{'f','I','J','K','C'},
-	{'e','W','(',')','/'},
-	{'d','7','8','9','*'},
-	{'c','4','5','6','-'},
-	{'b','1','2','3','+'},
-	{'a','0','.','S','='}
-};
-
 template <size_t N>
 constexpr std::string_view sv(const char (&literal)[N]) {
 	return std::string_view(literal, N - 1);
@@ -46,12 +32,26 @@ constexpr auto key_names =
 		"d", "7", "8", "9", "*",
 		"c", "4", "5", "6", "-",
 		"b", "1", "2", "3", "+",
-		"a", "0", ".", "S", "=");
+		"SQRT", "0", ".", "S", "=");
+
+constexpr char keys[rows][cols] = {
+	{'h','M','N','Q','H'},
+	{'g','E','F','G','L'},
+	{'f','I','J','K','C'},
+	{'e','W','(',')','/'},
+	{'d','7','8','9','*'},
+	{'c','4','5','6','-'},
+	{'b','1','2','3','+'},
+	{'a','0','.','S','='}
+};
+
 constexpr auto keys_count = key_names.size();
+constexpr auto col_w = (keyb_grid_width/cols);
+constexpr auto row_h = (keyb_grid_height/rows);
 
 constexpr int calc_win_height = 5;
 constexpr int calc_win_width = 20;
-constexpr auto allowed =".0123456789+-*/=CLq";
+constexpr std::string_view allowed =".0123456789+-*/=CLqa";
 
 
 #endif /* CA096F79_7057_4924_BEA5_7F94DB412F4A */

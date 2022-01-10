@@ -6,6 +6,7 @@
 #include <thread>
 #include "ncfunctions.h"
 #include "constants.h"
+#include <cmath>
 
 enum class init_result
 {
@@ -142,15 +143,36 @@ int main()
 		wrefresh(debug_win);
 
 		auto found = filter_keys(key);
+		mvwprintw(debug_win, 2, 0, "found:%s ", found?"yes":"no");
+		wrefresh(debug_win);
 		if (!found)
 				continue;
 		char fun;
-		if(key == '+' || key == '*' || key == '-' || key == '/')
+		if(key == '+' || key == '*' || key == '-' || key == '/' || key=='a')
 		{
 			fun = key;
 			strcpy(a_buf, buf);
 		}
+		if(key == 'a')
+		{
+			mvwprintw(debug_win, 8, 0, "SQRT");
+			wrefresh(debug_win);
 
+			char *ptr;
+			a = strtod(a_buf, &ptr);
+			result = std::sqrt(a);
+
+			auto count = calc_win_width - r_index;
+			for (size_t i = 0; i < count; i++)
+			{
+				mvwaddch(calc_win,0,r_index+i, ' ');
+			}
+
+			mvwprintw(calc_win, 1,0, "%.10g\n", result);
+			r_index = 0;
+			wrefresh(calc_win);
+			continue;
+		}
 		if(key == '=' || key == '\n')
 		{
 			auto pos = strlen(a_buf);
@@ -226,7 +248,7 @@ int main()
 bool filter_keys(char key)
 {
 	bool found;
-	for (size_t i = 0; i < 18; i++)
+	for (size_t i = 0; i < allowed.length(); i++)
 	{
 			if(allowed[i]==key)
 					found=true;
