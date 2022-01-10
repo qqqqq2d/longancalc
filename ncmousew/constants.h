@@ -30,8 +30,8 @@ constexpr auto key_names =
 		"f", "I", "J", "K", "<",
 		"e", "W", "(",")",":",
 		"d", "7", "8", "9", "*",
-		"c", "4", "5", "6", "-",
-		"b", "1", "2", "3", "+",
+		"X^3", "4", "5", "6", "-",
+		"X^2", "1", "2", "3", "+",
 		"SQRT", "0", ".", "S", "=");
 
 constexpr char keys[rows][cols] = {
@@ -51,7 +51,7 @@ constexpr auto row_h = (keyb_grid_height/rows);
 
 constexpr int calc_win_height = 5;
 constexpr int calc_win_width = 20;
-constexpr std::string_view allowed =".0123456789+-*/=CLqa";
+constexpr std::string_view allowed =".0123456789+-*/=CLqabc";
 
 
 #endif /* CA096F79_7057_4924_BEA5_7F94DB412F4A */

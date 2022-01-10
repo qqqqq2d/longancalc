@@ -148,20 +148,24 @@ int main()
 		if (!found)
 				continue;
 		char fun;
-		if(key == '+' || key == '*' || key == '-' || key == '/' || key=='a')
+		if(key == '+' || key == '*' || key == '-' || key == '/' || key=='a'|| key=='b'|| key=='c')
 		{
 			fun = key;
 			strcpy(a_buf, buf);
 		}
-		if(key == 'a')
+		if(key == 'a' || key == 'b' || key == 'c')
 		{
-			mvwprintw(debug_win, 8, 0, "SQRT");
+			mvwprintw(debug_win, 8, 0, "UNARY");
 			wrefresh(debug_win);
 
 			char *ptr;
 			a = strtod(a_buf, &ptr);
-			result = std::sqrt(a);
-
+			if(key=='a')
+				result = std::sqrt(a);
+			if(key=='b')
+				result = a * a;
+			if(key=='c')
+				result = a * a * a;
 			auto count = calc_win_width - r_index;
 			for (size_t i = 0; i < count; i++)
 			{
