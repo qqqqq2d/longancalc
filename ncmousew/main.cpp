@@ -30,8 +30,7 @@ init_result init_screen_mouse_keyb()
 
 	printf("\033[?1003h\n"); // Makes the terminal report mouse movement events
 
-	return init_result::success;
-}
+	return init_result::success;}
 
 enum class button {
 	LEFT = 0x2,
@@ -45,7 +44,10 @@ void fill_keyboard_grid()
 		for (int j = 0; j < rows ; ++j)
 		{
 			mvprintw(j*row_h+keyb_starty, i*col_w+col_w/2, "%d %d", i, j);
-			mvprintw(j*row_h+keyb_starty+row_h/2, i*col_w+col_w/2, "%c", keys[j][i]);
+//			mvprintw(j*row_h+keyb_starty+row_h/2, i*col_w+col_w/2, "%c", keys[j][i]);
+			const auto index = j*cols+i;
+			auto text = key_names.at(index).data();
+			mvprintw(j * row_h + keyb_starty + row_h / 2, i * col_w + col_w / 2 - strlen(text)/2, "%s", text);
 		}
 	}
 	refresh();
@@ -136,7 +138,7 @@ int main()
 			key = ch;
 		}
 		if(key == 0) continue;
-		mvwprintw(debug_win, 7, 0, "key:%c", key);
+		mvwprintw(debug_win, 7, 0, "key:%c, 0x%x", key, key);
 		wrefresh(debug_win);
 
 		auto found = filter_keys(key);
@@ -188,7 +190,7 @@ int main()
 		if(r_index>=18)
 				continue;
 
-		if((key == 'C' || key == 127) && (r_index>0))
+		if((key == 'C' || key == 127 || key == 0x7) && (r_index>0))
 		{
 				r_index--; 
 				mvwaddch(calc_win,0,r_index, ' '); 
@@ -197,7 +199,7 @@ int main()
 				wrefresh(calc_win);
 				continue;                       
 		}
-		else if((key == 'L') && (r_index>0))
+		else if((key == 'L'))
 		{
 				r_index=0;
 				mvwprintw(calc_win,0,0,"                   ");
@@ -228,7 +230,7 @@ bool filter_keys(char key)
 	{
 			if(allowed[i]==key)
 					found=true;
-			if(key == 127 || key == 10)
+			if(key == 127 || key == 10 || key == 7)
 					found=true;
 	}
 	return found;
