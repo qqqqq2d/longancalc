@@ -8,5 +8,6 @@ set(CMAKE_CXX_FLAGS "-std=c++2a")
 add_executable (ncmousew 
 main.cpp
 ncfunctions.cpp ncfunctions.h
-)
+calc_colors.h
+        print_calc.cpp print_calc.h)
 target_link_libraries(ncmousew m ncurses stdc++)

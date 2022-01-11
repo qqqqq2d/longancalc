@@ -1,16 +1,17 @@
 #ifndef CA096F79_7057_4924_BEA5_7F94DB412F4A
 #define CA096F79_7057_4924_BEA5_7F94DB412F4A
 #include <string_view>
+#include <array>
 
 constexpr int rows = 8; // set display to four rows
 constexpr int cols = 5; // set display to three columns
 
 constexpr int keyb_grid_width = 90;
 constexpr int keyb_grid_height = 48;
-constexpr int keyb_starty = 11;
-constexpr int debug_win_height = 8;
-constexpr int debug_win_width = 40;
-constexpr int debug_win_startx = 49;
+constexpr int keyb_starty = 13;
+constexpr int debug_win_height = 10;
+constexpr int debug_win_width = 60;
+constexpr int debug_win_startx = 29;
 
 
 template <size_t N>
@@ -25,24 +26,26 @@ constexpr std::array<std::string_view, sizeof...(N)> sva(
 }
 
 constexpr auto key_names =
-	sva("h", "M", "N", "Q","H",
-		"g", "E", "F", "G", "CLEAR",
-		"f", "I", "J", "K", "<",
-		"e", "W", "(",")",":",
-		"d", "7", "8", "9", "*",
-		"X^3", "4", "5", "6", "-",
-		"X^2", "1", "2", "3", "+",
-		"SQRT", "0", ".", "S", "=");
+	sva("R1", "R2", "R3", "R4","ON/OFF",
+		"W1", "W2", "W3", "W4", "BAT",
+		"RED", "GREEN", "BLUE", "WHITE", "CLEAR",
+		"SQRT", "X^2", "X^3","X^Y","<",
+
+		"7", "8", "9", "1/x", "|x|",
+		"4", "5", "6", "*", ":",
+		"1",  "2", "3", "+", "-",
+		"+/-", "0", ".","pi", "=");
 
 constexpr char keys[rows][cols] = {
-	{'h','M','N','Q','H'},
-	{'g','E','F','G','L'},
-	{'f','I','J','K','C'},
-	{'e','W','(',')','/'},
-	{'d','7','8','9','*'},
-	{'c','4','5','6','-'},
-	{'b','1','2','3','+'},
-	{'a','0','.','S','='}
+	{'h','M','N','Q','q'},
+	{'g','E','F','G','H'},
+	{'f','I','J','K','L'},
+	{'a','b','c','P','C'},
+
+	{'7','8','9', 'Z','A'},
+	{'4','5','6','*','/'},
+	{'1','2','3','+', '-'},
+	{'S','0','.','p','='}
 };
 
 constexpr auto keys_count = key_names.size();
@@ -51,7 +54,12 @@ constexpr auto row_h = (keyb_grid_height/rows);
 
 constexpr int calc_win_height = 5;
 constexpr int calc_win_width = 20;
-constexpr std::string_view allowed =".0123456789+-*/=CLqabc";
+constexpr std::string_view allowed =".0123456789+-*/=CLqabchMNQgEFG";
+constexpr std::string_view binary_op ="+-*/";
+constexpr std::string_view unary_op ="abc";
+constexpr std::string_view mem_read ="hMNQ";
+constexpr std::string_view mem_write ="gEFG";
+
 
 
 #endif /* CA096F79_7057_4924_BEA5_7F94DB412F4A */
