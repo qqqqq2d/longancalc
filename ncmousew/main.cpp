@@ -75,6 +75,7 @@ MEVENT event;
 bool filter_keys(char key);
 bool char_array_contains(char key);
 
+char get_key();
 void show_debug_info(int x, int y)
 {
 	mvwprintw(debug_win, 3, 0, "y:%d, x:%d   ", event.y, event.x);
@@ -91,6 +92,29 @@ void show_debug_info(int x, int y)
 	wrefresh(debug_win);
 }
 
+constexpr bool string_view_contains(const std::string_view str, const char op)
+{
+	return str.find(op) != std::string::npos;
+	//return str.contains(op);//-std=c++2b
+}
+
+void compile_time_tests()
+{
+	static constexpr auto bin_op = '+';
+	constexpr auto result = binary_op.find(bin_op) != std::string::npos || unary_op.find(bin_op) != std::string::npos;
+	static_assert(result, "+ found");
+	constexpr auto r_bin_op = string_view_contains(binary_op, '+');
+	static_assert(r_bin_op, "+ r_bin_op found");
+
+	constexpr char un_op = 'a';
+	constexpr auto un_result = binary_op.find(un_op) != std::string::npos || unary_op.find(un_op) != std::string::npos;
+	static_assert(un_result, "a found");
+
+	constexpr char non_op = 'A';
+	constexpr auto non_result =
+		binary_op.find(non_op) != std::string::npos || unary_op.find(non_op) != std::string::npos;
+	static_assert(!non_result, "A not found");
+}
 
 int main()
 {
@@ -107,7 +131,6 @@ int main()
 	refresh();
 	scrollok(debug_win, TRUE);
 
-
 	mvwprintw(debug_win, 0, 0, "GCC version:%s", __VERSION__);
 	wrefresh(debug_win);
 
@@ -119,30 +142,7 @@ int main()
 	char key;
 	while (true)
 	{
-		int ch = getch();
-		key = 0;
-		if (ch == KEY_MOUSE)
-		{
-			while (getmouse(&event) != ERR)
-			{
-				int y = 0;
-				int x = 0;
-
-				if (event.bstate == (unsigned)button::LEFT)
-				{
-					y = (event.y - keyb_starty) / row_h;
-					if (y >= rows) y = rows - 1;
-					x = event.x / col_w;
-					if (x >= cols) x = cols - 1;
-					key = keys[y][x];
-				}
-				show_debug_info(x, y);
-			}
-		}
-		else if (ch != ERR)
-		{
-			key = ch;
-		}
+		key = get_key();
 		if (key == 'q')
 		{
 			break;
@@ -157,36 +157,35 @@ int main()
 		if (!found)
 			continue;
 		char fun;
-		//if (key == '+' || key == '*' || key == '-' || key == '/' || key == 'a' || key == 'b' || key == 'c')
-		if(binary_op.find(key) != std::string::npos || unary_op.find(key) != std::string::npos)
+		if (string_view_contains(binary_op, key) || string_view_contains(unary_op, key))
 		{
 			fun = key;
 			strcpy(a_buf, buf);
 			r_index = 0;
 			cur_row = 1;
 		}
-		if(mem_write.find(key) != std::string::npos)
+		if(string_view_contains(mem_write, key))
 		{
 			mvwprintw(debug_win, 8, 0, "MEM WRITE");
 			wrefresh(debug_win);
-			if(result_calculated)
+			if (result_calculated)
 			{
-				if(key == 'g')
+				if (key == 'g')
 				{
 					memory[0] = result;
 					mvwprintw(calc_win, 3, 0, "1:%.10g\n", result);
 				}
-				if(key=='E')
+				if (key == 'E')
 				{
 					memory[1] = result;
 					mvwprintw(calc_win, 3, 10, "2:%.10g\n", result);
 				}
-				if(key == 'F')
+				if (key == 'F')
 				{
 					memory[2] = result;
 					mvwprintw(calc_win, 4, 0, "3:%.10g\n", result);
 				}
-				if(key=='G')
+				if (key == 'G')
 				{
 					memory[3] = result;
 					mvwprintw(calc_win, 4, 10, "4:%.10g\n", result);
@@ -198,18 +197,18 @@ int main()
 			wrefresh(debug_win);
 			continue;
 		}
-		if(mem_read.find(key) != std::string::npos)
+		if(string_view_contains(mem_read, key))
 		{
 			mvwprintw(debug_win, 8, 0, "MEM READ");
 			wrefresh(debug_win);
 
-			if(key == 'h')
+			if (key == 'h')
 				a = memory[0];
-			if(key=='M')
+			if (key == 'M')
 				a = memory[1];
-			if(key == 'N')
+			if (key == 'N')
 				a = memory[2];
-			if(key=='Q')
+			if (key == 'Q')
 				a = memory[3];
 			mvwprintw(debug_win, 0, 0, "a:%.10g\n", a);
 			wrefresh(debug_win);
@@ -223,8 +222,8 @@ int main()
 
 			continue;
 		}
-		//if (key == 'a' || key == 'b' || key == 'c')
-		if(unary_op.find(key) != std::string::npos)
+
+		if (string_view_contains(unary_op, key))
 		{
 			mvwprintw(debug_win, 8, 0, "UNARY");
 			wrefresh(debug_win);
@@ -343,18 +342,41 @@ int main()
 	endwin();
 	return 0;
 }
+char get_key()
+{
+	char key;
+	int ch = getch();
+	key = 0;
+	if (ch == KEY_MOUSE)
+	{
+		while (getmouse(&event) != ERR)
+		{
+			int y = 0;
+			int x = 0;
+
+			if (event.bstate == (unsigned)button::LEFT)
+			{
+				y = (event.y - keyb_starty) / row_h;
+				if (y >= rows) y = rows - 1;
+				x = event.x / col_w;
+				if (x >= cols) x = cols - 1;
+				key = keys[y][x];
+			}
+			show_debug_info(x, y);
+		}
+	}
+	else if (ch != ERR)
+	{
+		key = ch;
+	}
+	return key;
+}
 
 bool filter_keys(char key)
 {
-	bool found;
-	for (size_t i = 0; i < allowed.length(); i++)
-	{
-		if (allowed[i] == key)
-			found = true;
-		if (key == 127 || key == 10 || key == 7)
-			found = true;
-	}
-	return found;
+	return (string_view_contains(binary_op, key)) || (string_view_contains(unary_op, key))
+		   || (string_view_contains(spec_keys, key)) || (string_view_contains(numbers, key))
+		|| (string_view_contains(mem_write, key)) || (string_view_contains(mem_read, key));
 }
 
 

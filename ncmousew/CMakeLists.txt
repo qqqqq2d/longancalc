@@ -5,6 +5,7 @@ project(ncmousew)
 include_directories(source)
 include_directories(/usr/include/ncurses)
 set(CMAKE_CXX_FLAGS "-std=c++2a")
+#set(CMAKE_CXX_FLAGS "-std=c++2b")
 add_executable (ncmousew 
 main.cpp
 ncfunctions.cpp ncfunctions.h
