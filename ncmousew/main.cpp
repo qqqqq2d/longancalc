@@ -8,6 +8,9 @@
 #include "constants.h"
 #include "calc_colors.h"
 #include "print_calc.h"
+#include "button.h"
+#include "interface.h"
+#include "computer.h"
 #include <cmath>
 
 enum class init_result
@@ -34,10 +37,7 @@ init_result init_screen_mouse_keyb()
 	return init_result::success;
 }
 
-enum class button
-{
-	LEFT = 0x2, RIGHT = 0x800,
-};
+
 
 void fill_keyboard_grid()
 {
@@ -75,23 +75,6 @@ MEVENT event;
 bool filter_keys(char key);
 bool char_array_contains(char key);
 
-char get_key();
-void show_debug_info(int x, int y)
-{
-	mvwprintw(debug_win, 3, 0, "y:%d, x:%d   ", event.y, event.x);
-	mvwprintw(debug_win, 4, 0, "bstate:0x%08lx dec:%d                 ", event.bstate, event.bstate);
-	if (event.bstate == (unsigned)button::LEFT)
-	{
-		mvwprintw(debug_win, 5, 0, "LEFT");
-		mvwprintw(debug_win, 6, 0, "y:%d, x:%d %c", y, x, keys[y][x]);
-	}
-	else if (event.bstate == (unsigned)button::RIGHT)
-		mvwprintw(debug_win, 5, 0, "RIGHT");
-	else
-		mvwprintw(debug_win, 5, 0, "     ");
-	wrefresh(debug_win);
-}
-
 constexpr bool string_view_contains(const std::string_view str, const char op)
 {
 	return str.find(op) != std::string::npos;
@@ -118,6 +101,7 @@ void compile_time_tests()
 
 int main()
 {
+
 	bool result_calculated = false;
 	const auto init_r = init_screen_mouse_keyb();
 
@@ -125,6 +109,8 @@ int main()
 	fill_keyboard_grid();
 
 	debug_win = newwin(debug_win_height, debug_win_width, 1, debug_win_startx);
+	computer c(debug_win, event);
+	interface ui(c);
 	rectangle_around_window(debug_win_height, debug_win_width, 1, debug_win_startx, "DEBUG");
 	WINDOW* calc_win = newwin(calc_win_height, calc_win_width, 1, 5);
 	rectangle_around_window(calc_win_height, calc_win_width, 1, 5, "CALC");
@@ -142,7 +128,7 @@ int main()
 	char key;
 	while (true)
 	{
-		key = get_key();
+		key = ui.get_key();
 		if (key == 'q')
 		{
 			break;
@@ -342,35 +328,35 @@ int main()
 	endwin();
 	return 0;
 }
-char get_key()
-{
-	char key;
-	int ch = getch();
-	key = 0;
-	if (ch == KEY_MOUSE)
-	{
-		while (getmouse(&event) != ERR)
-		{
-			int y = 0;
-			int x = 0;
-
-			if (event.bstate == (unsigned)button::LEFT)
-			{
-				y = (event.y - keyb_starty) / row_h;
-				if (y >= rows) y = rows - 1;
-				x = event.x / col_w;
-				if (x >= cols) x = cols - 1;
-				key = keys[y][x];
-			}
-			show_debug_info(x, y);
-		}
-	}
-	else if (ch != ERR)
-	{
-		key = ch;
-	}
-	return key;
-}
+//char get_key()
+//{
+//	char key;
+//	int ch = getch();
+//	key = 0;
+//	if (ch == KEY_MOUSE)
+//	{
+//		while (getmouse(&event_) != ERR)
+//		{
+//			int y = 0;
+//			int x = 0;
+//
+//			if (event_.bstate == (unsigned)button::LEFT)
+//			{
+//				y = (event_.y - keyb_starty) / row_h;
+//				if (y >= rows) y = rows - 1;
+//				x = event_.x / col_w;
+//				if (x >= cols) x = cols - 1;
+//				key = keys[y][x];
+//			}
+//			show_mouse_debug_info(x, y);
+//		}
+//	}
+//	else if (ch != ERR)
+//	{
+//		key = ch;
+//	}
+//	return key;
+//}
 
 bool filter_keys(char key)
 {
