@@ -81,23 +81,6 @@ constexpr bool string_view_contains(const std::string_view str, const char op)
 	//return str.contains(op);//-std=c++2b
 }
 
-void compile_time_tests()
-{
-	static constexpr auto bin_op = '+';
-	constexpr auto result = binary_op.find(bin_op) != std::string::npos || unary_op.find(bin_op) != std::string::npos;
-	static_assert(result, "+ found");
-	constexpr auto r_bin_op = string_view_contains(binary_op, '+');
-	static_assert(r_bin_op, "+ r_bin_op found");
-
-	constexpr char un_op = 'a';
-	constexpr auto un_result = binary_op.find(un_op) != std::string::npos || unary_op.find(un_op) != std::string::npos;
-	static_assert(un_result, "a found");
-
-	constexpr char non_op = 'A';
-	constexpr auto non_result =
-		binary_op.find(non_op) != std::string::npos || unary_op.find(non_op) != std::string::npos;
-	static_assert(!non_result, "A not found");
-}
 
 int main()
 {
@@ -328,35 +311,6 @@ int main()
 	endwin();
 	return 0;
 }
-//char get_key()
-//{
-//	char key;
-//	int ch = getch();
-//	key = 0;
-//	if (ch == KEY_MOUSE)
-//	{
-//		while (getmouse(&event_) != ERR)
-//		{
-//			int y = 0;
-//			int x = 0;
-//
-//			if (event_.bstate == (unsigned)button::LEFT)
-//			{
-//				y = (event_.y - keyb_starty) / row_h;
-//				if (y >= rows) y = rows - 1;
-//				x = event_.x / col_w;
-//				if (x >= cols) x = cols - 1;
-//				key = keys[y][x];
-//			}
-//			show_mouse_debug_info(x, y);
-//		}
-//	}
-//	else if (ch != ERR)
-//	{
-//		key = ch;
-//	}
-//	return key;
-//}
 
 bool filter_keys(char key)
 {
@@ -366,6 +320,24 @@ bool filter_keys(char key)
 }
 
 
+
+void compile_time_tests()
+{
+	static constexpr auto bin_op = '+';
+	constexpr auto result = binary_op.find(bin_op) != std::string::npos || unary_op.find(bin_op) != std::string::npos;
+	static_assert(result, "+ found");
+	constexpr auto r_bin_op = string_view_contains(binary_op, '+');
+	static_assert(r_bin_op, "+ r_bin_op found");
+
+	constexpr char un_op = 'a';
+	constexpr auto un_result = binary_op.find(un_op) != std::string::npos || unary_op.find(un_op) != std::string::npos;
+	static_assert(un_result, "a found");
+
+	constexpr char non_op = 'A';
+	constexpr auto non_result =
+		binary_op.find(non_op) != std::string::npos || unary_op.find(non_op) != std::string::npos;
+	static_assert(!non_result, "A not found");
+}
 
 /*
 	print_calc p(calc_win);
