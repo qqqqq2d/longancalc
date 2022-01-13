@@ -71,14 +71,10 @@ int main()
 	debug_win = newwin(debug_win_height, debug_win_width, 1, debug_win_startx);
 	computer c(debug_win, event);
 	interface ui(c);
-	
 
 	WINDOW* calc_win = newwin(calc_win_height, calc_win_width, 1, 5);
 
-	scrollok(debug_win, TRUE);
 
-	mvwprintw(debug_win, 0, 0, "GCC version:%s", __VERSION__);
-	wrefresh(debug_win);
 
 	const auto mouse_status = (init_r == init_result::success) ? "mouse success" : "mouse error";
 	mvwprintw(debug_win, 1, 0, mouse_status);

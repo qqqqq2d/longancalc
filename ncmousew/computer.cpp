@@ -63,6 +63,9 @@ computer::computer(WINDOW* debugWin, MEVENT& event) : debug_win_(debugWin), even
 	rectangle_around_window(debug_win_height, debug_win_width, 1, debug_win_startx, "DEBUG");
 	rectangle_around_window(calc_win_height, calc_win_width, 1, 5, "CALC");
 	refresh();
+	scrollok(debug_win_, TRUE);
+	mvwprintw(debug_win_, 0, 0, "GCC version:%s", __VERSION__);
+	wrefresh(debug_win_);
 }
 
 void computer::fill_keyboard_grid()
