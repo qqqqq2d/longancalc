@@ -1,16 +1,7 @@
 #ifndef _COMPUTER_H_
 #define _COMPUTER_H_
-#include <curses.h>
-#include <iostream>
-#include <cstring>
-#include <iostream>
-#include <chrono>
-#include <thread>
-#include "ncfunctions.h"
-#include "constants.h"
-#include "calc_colors.h"
+
 #include "print_calc.h"
-#include <cmath>
 
 struct computer
 {

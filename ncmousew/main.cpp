@@ -11,12 +11,10 @@
 #include "button.h"
 #include "interface.h"
 #include "computer.h"
+#include "init_result.h"
 #include <cmath>
 
-enum class init_result
-{
-	success, error
-};
+
 
 init_result init_screen_mouse_keyb()
 {
