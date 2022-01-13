@@ -69,16 +69,10 @@ int main()
 	const auto init_r = init_screen_mouse_keyb();
 
 	debug_win = newwin(debug_win_height, debug_win_width, 1, debug_win_startx);
-	computer c(debug_win, event);
+	computer c(debug_win, event, init_r);
 	interface ui(c);
 
 	WINDOW* calc_win = newwin(calc_win_height, calc_win_width, 1, 5);
-
-
-
-	const auto mouse_status = (init_r == init_result::success) ? "mouse success" : "mouse error";
-	mvwprintw(debug_win, 1, 0, mouse_status);
-	wrefresh(debug_win);
 
 	int cur_row = 0;
 	char key;

@@ -56,7 +56,7 @@ void computer::mouse_debug_info(int x, int y)
 		mvwprintw(debug_win_, 5, 0, "     ");
 	wrefresh(debug_win_);
 }
-computer::computer(WINDOW* debugWin, MEVENT& event) : debug_win_(debugWin), event_(event)
+computer::computer(WINDOW* debugWin, MEVENT& event, const init_result result) : debug_win_(debugWin), event_(event), result_(result)
 {
 	draw_keyboard_grid(keyb_starty, 0, keyb_starty + keyb_grid_height, keyb_grid_width, cols, rows);
 	fill_keyboard_grid();
@@ -65,6 +65,11 @@ computer::computer(WINDOW* debugWin, MEVENT& event) : debug_win_(debugWin), even
 	refresh();
 	scrollok(debug_win_, TRUE);
 	mvwprintw(debug_win_, 0, 0, "GCC version:%s", __VERSION__);
+	wrefresh(debug_win_);
+
+
+	const auto mouse_status = (result_ == init_result::success) ? "mouse success" : "mouse error";
+	mvwprintw(debug_win_, 1, 0, mouse_status);
 	wrefresh(debug_win_);
 }
 
