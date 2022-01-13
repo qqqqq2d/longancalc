@@ -58,5 +58,22 @@ void computer::mouse_debug_info(int x, int y)
 }
 computer::computer(WINDOW* debugWin, MEVENT& event) : debug_win_(debugWin), event_(event)
 {
+	draw_keyboard_grid(keyb_starty, 0, keyb_starty + keyb_grid_height, keyb_grid_width, cols, rows);
+	fill_keyboard_grid();
 }
 
+void computer::fill_keyboard_grid()
+{
+	for (int i = 0; i < cols; ++i)
+	{
+		for (int j = 0; j < rows; ++j)
+		{
+			mvprintw(j * row_h + keyb_starty, i * col_w + col_w / 2, "%d %d", i, j);
+//			mvprintw(j*row_h+keyb_starty+row_h/2, i*col_w+col_w/2, "%c", keys[j][i]);
+			const auto index = j * cols + i;
+			auto text = key_names.at(index).data();
+			mvprintw(j * row_h + keyb_starty + row_h / 2, i * col_w + col_w / 2 - strlen(text) / 2, "%s", text);
+		}
+	}
+	refresh();
+}

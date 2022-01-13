@@ -36,23 +36,6 @@ init_result init_screen_mouse_keyb()
 }
 
 
-
-void fill_keyboard_grid()
-{
-	for (int i = 0; i < cols; ++i)
-	{
-		for (int j = 0; j < rows; ++j)
-		{
-			mvprintw(j * row_h + keyb_starty, i * col_w + col_w / 2, "%d %d", i, j);
-//			mvprintw(j*row_h+keyb_starty+row_h/2, i*col_w+col_w/2, "%c", keys[j][i]);
-			const auto index = j * cols + i;
-			auto text = key_names.at(index).data();
-			mvprintw(j * row_h + keyb_starty + row_h / 2, i * col_w + col_w / 2 - strlen(text) / 2, "%s", text);
-		}
-	}
-	refresh();
-}
-
 char buf[42];
 
 char a_buf[20];
@@ -91,10 +74,7 @@ int main()
 	debug_win = newwin(debug_win_height, debug_win_width, 1, debug_win_startx);
 	computer c(debug_win, event);
 	interface ui(c);
-
-	draw_keyboard_grid(keyb_starty, 0, keyb_starty + keyb_grid_height, keyb_grid_width, cols, rows);
-	fill_keyboard_grid();
-
+	
 	rectangle_around_window(debug_win_height, debug_win_width, 1, debug_win_startx, "DEBUG");
 	WINDOW* calc_win = newwin(calc_win_height, calc_win_width, 1, 5);
 	rectangle_around_window(calc_win_height, calc_win_width, 1, 5, "CALC");

@@ -12,6 +12,7 @@ struct computer
 	computer(WINDOW* debugWin, MEVENT& event);
 	char get_key();
 	void mouse_debug_info(int x, int y);
+	void fill_keyboard_grid();
 };
 
 #endif //_COMPUTER_H_
