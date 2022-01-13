@@ -65,11 +65,8 @@ constexpr bool string_view_contains(const std::string_view str, const char op)
 
 int main()
 {
-
 	bool result_calculated = false;
 	const auto init_r = init_screen_mouse_keyb();
-
-
 
 	debug_win = newwin(debug_win_height, debug_win_width, 1, debug_win_startx);
 	computer c(debug_win, event);
@@ -77,8 +74,7 @@ int main()
 	
 
 	WINDOW* calc_win = newwin(calc_win_height, calc_win_width, 1, 5);
-	rectangle_around_window(calc_win_height, calc_win_width, 1, 5, "CALC");
-	refresh();
+
 	scrollok(debug_win, TRUE);
 
 	mvwprintw(debug_win, 0, 0, "GCC version:%s", __VERSION__);
