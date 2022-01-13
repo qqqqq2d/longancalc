@@ -60,6 +60,7 @@ computer::computer(WINDOW* debugWin, MEVENT& event) : debug_win_(debugWin), even
 {
 	draw_keyboard_grid(keyb_starty, 0, keyb_starty + keyb_grid_height, keyb_grid_width, cols, rows);
 	fill_keyboard_grid();
+	rectangle_around_window(debug_win_height, debug_win_width, 1, debug_win_startx, "DEBUG");
 }
 
 void computer::fill_keyboard_grid()

@@ -75,7 +75,7 @@ int main()
 	computer c(debug_win, event);
 	interface ui(c);
 	
-	rectangle_around_window(debug_win_height, debug_win_width, 1, debug_win_startx, "DEBUG");
+
 	WINDOW* calc_win = newwin(calc_win_height, calc_win_width, 1, 5);
 	rectangle_around_window(calc_win_height, calc_win_width, 1, 5, "CALC");
 	refresh();
