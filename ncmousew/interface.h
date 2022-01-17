@@ -16,6 +16,14 @@ struct interface
 	{
 		obj.debug_key(key, found);
 	}
+	void debug_mem_write()
+	{
+		obj.debug_mem_write();
+	}
+	void show_stored(int index, double mem_var)
+	{
+		obj.show_stored(index, mem_var);
+	}
 };
 
 #endif //_INTERFACE_H_

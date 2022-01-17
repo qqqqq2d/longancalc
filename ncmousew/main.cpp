@@ -51,6 +51,8 @@ double result;
 double memory[4];
 
 WINDOW* debug_win;
+WINDOW* calc_win;
+
 MEVENT event;
 
 bool filter_keys(char key);
@@ -69,10 +71,11 @@ int main()
 	const auto init_r = init_screen_mouse_keyb();
 
 	debug_win = newwin(debug_win_height, debug_win_width, 1, debug_win_startx);
-	computer c(debug_win, event, init_r);
+	calc_win = newwin(calc_win_height, calc_win_width, 1, 5);
+	computer c(debug_win, calc_win, event, init_r);
 	interface ui(c);
 
-	WINDOW* calc_win = newwin(calc_win_height, calc_win_width, 1, 5);
+
 
 	int cur_row = 0;
 	char key;
@@ -99,29 +102,18 @@ int main()
 		}
 		if(string_view_contains(mem_write, key))
 		{
-			mvwprintw(debug_win, 8, 0, "MEM WRITE");
-			wrefresh(debug_win);
+			ui.debug_mem_write();
 			if (result_calculated)
 			{
-				if (key == 'g')
+				int i;
+				for (i = 0; i < mem_write.length(); ++i)
 				{
-					memory[0] = result;
-					mvwprintw(calc_win, 3, 0, "1:%.10g\n", result);
+					if(mem_write.at(i) == key) break;
 				}
-				if (key == 'E')
+				if(i<mem_write.length())
 				{
-					memory[1] = result;
-					mvwprintw(calc_win, 3, 10, "2:%.10g\n", result);
-				}
-				if (key == 'F')
-				{
-					memory[2] = result;
-					mvwprintw(calc_win, 4, 0, "3:%.10g\n", result);
-				}
-				if (key == 'G')
-				{
-					memory[3] = result;
-					mvwprintw(calc_win, 4, 10, "4:%.10g\n", result);
+					memory[i] = result;
+					ui.show_stored(i, result);
 				}
 			}
 

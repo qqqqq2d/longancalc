@@ -56,7 +56,7 @@ void computer::mouse_debug_info(int x, int y)
 		mvwprintw(debug_win_, 5, 0, "     ");
 	wrefresh(debug_win_);
 }
-computer::computer(WINDOW* debugWin, MEVENT& event, const init_result result) : debug_win_(debugWin), event_(event), result_(result)
+computer::computer(WINDOW* debugWin, WINDOW* calc_win, MEVENT& event, const init_result result) : debug_win_(debugWin), calc_win_(calc_win), event_(event), result_(result)
 {
 	draw_keyboard_grid(keyb_starty, 0, keyb_starty + keyb_grid_height, keyb_grid_width, cols, rows);
 	fill_keyboard_grid();
@@ -93,4 +93,32 @@ void computer::debug_key(char key, bool found)
 	mvwprintw(debug_win_, 7, 0, "key:%c, 0x%x", key, key);
 	mvwprintw(debug_win_, 2, 0, "found:%s ", found ? "yes" : "no");
 	wrefresh(debug_win_);
+}
+void computer::debug_mem_write()
+{
+	mvwprintw(debug_win_, 8, 0, "MEM WRITE");
+	wrefresh(debug_win_);
+}
+void computer::show_stored(int index, double mem_var)
+{
+	if(index == 0)
+	{
+		mvwprintw(calc_win_, 3, 0, "          ");
+		mvwprintw(calc_win_, 3, 0, "1:%.10g", mem_var);
+	}
+	if(index == 1)
+	{
+		mvwprintw(calc_win_, 3, 10, "          ");
+		mvwprintw(calc_win_, 3, 10, "2:%.10g", mem_var);
+	}
+	if(index == 2)
+	{
+		mvwprintw(calc_win_, 4, 0, "          ");
+		mvwprintw(calc_win_, 4, 0, "3:%.10g", mem_var);
+	}
+	if(index == 3)
+	{
+		mvwprintw(calc_win_, 4, 10, "          ");
+		mvwprintw(calc_win_, 4, 10, "4:%.10g\n", mem_var);
+	}
 }
