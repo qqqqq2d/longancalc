@@ -16,13 +16,17 @@ struct interface
 	{
 		obj.debug_key(key, found);
 	}
-	void debug_mem_write()
+	void debug_mem_write(double mem_var)
 	{
-		obj.debug_mem_write();
+		obj.debug_mem_write(mem_var);
 	}
 	void show_stored(int index, double mem_var)
 	{
 		obj.show_stored(index, mem_var);
+	}
+	void show_mem_read(int index, double mem_var)
+	{
+		obj.show_mem_read(index, mem_var);
 	}
 };
 

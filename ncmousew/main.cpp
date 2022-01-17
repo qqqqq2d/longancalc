@@ -102,7 +102,7 @@ int main()
 		}
 		if(string_view_contains(mem_write, key))
 		{
-			ui.debug_mem_write();
+			ui.debug_mem_write(result);
 			if (result_calculated)
 			{
 				int i;
@@ -116,17 +116,27 @@ int main()
 					ui.show_stored(i, result);
 				}
 			}
-
-			wrefresh(calc_win);
-			mvwprintw(debug_win, 0, 0, "MEM:%.10g\n", result);
-			wrefresh(debug_win);
 			continue;
 		}
 		if(string_view_contains(mem_read, key))
 		{
 			mvwprintw(debug_win, 8, 0, "MEM READ");
 			wrefresh(debug_win);
-
+			int i;
+			for (i = 0; i < mem_read.length(); ++i)
+			{
+				if(mem_read.at(i) == key) break;
+			}
+			if(i<mem_read.length())
+			{
+				a = memory[i];
+				sprintf(a_buf, "%.10g", a);
+				strcpy(buf, a_buf);
+				r_index = strlen(a_buf);
+				buf_index = r_index;
+				ui.show_mem_read(i, a);
+			}
+			/*
 			if (key == 'h')
 				a = memory[0];
 			if (key == 'M')
@@ -137,13 +147,9 @@ int main()
 				a = memory[3];
 			mvwprintw(debug_win, 0, 0, "a:%.10g\n", a);
 			wrefresh(debug_win);
+*/
 
-			sprintf(a_buf, "%.10g", a);
-			strcpy(buf, a_buf);
-			r_index = strlen(a_buf);
-			buf_index = r_index;
-			mvwprintw(calc_win, 0, 0, "%s", buf);
-			wrefresh(calc_win);
+
 
 			continue;
 		}

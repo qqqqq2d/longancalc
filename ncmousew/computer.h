@@ -17,8 +17,9 @@ struct computer
 	void mouse_debug_info(int x, int y);
 	void fill_keyboard_grid();
 	void debug_key(char key, bool found);
-	void debug_mem_write();
+	void debug_mem_write(double mem_var);
 	void show_stored(int index, double mem_var);
+	void show_mem_read(int index, double mem_var);
 };
 
 #endif //_COMPUTER_H_

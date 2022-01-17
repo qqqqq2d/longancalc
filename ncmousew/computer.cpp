@@ -94,9 +94,9 @@ void computer::debug_key(char key, bool found)
 	mvwprintw(debug_win_, 2, 0, "found:%s ", found ? "yes" : "no");
 	wrefresh(debug_win_);
 }
-void computer::debug_mem_write()
+void computer::debug_mem_write(double mem_var)
 {
-	mvwprintw(debug_win_, 8, 0, "MEM WRITE");
+	mvwprintw(debug_win_, 0, 0, "MEM WR:%.10g\n", mem_var);
 	wrefresh(debug_win_);
 }
 void computer::show_stored(int index, double mem_var)
@@ -121,4 +121,13 @@ void computer::show_stored(int index, double mem_var)
 		mvwprintw(calc_win_, 4, 10, "          ");
 		mvwprintw(calc_win_, 4, 10, "4:%.10g\n", mem_var);
 	}
+	wrefresh(calc_win_);
+}
+void computer::show_mem_read(int index, double mem_var)
+{
+	mvwprintw(debug_win_, 0, 0, "a:%.10g\n", mem_var);
+	wrefresh(debug_win_);
+	mvwprintw(calc_win_, 0, 0, "                    ");
+	mvwprintw(calc_win_, 0, 0, "%.10g", mem_var);
+	wrefresh(calc_win_);
 }
