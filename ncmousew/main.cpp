@@ -84,12 +84,9 @@ int main()
 			break;
 		}
 		if (key == 0) continue;
-		mvwprintw(debug_win, 7, 0, "key:%c, 0x%x", key, key);
-		wrefresh(debug_win);
-
 		auto found = filter_keys(key);
-		mvwprintw(debug_win, 2, 0, "found:%s ", found ? "yes" : "no");
-		wrefresh(debug_win);
+		ui.debug_key(key, key);
+
 		if (!found)
 			continue;
 		char fun;

@@ -88,3 +88,9 @@ void computer::fill_keyboard_grid()
 	}
 	refresh();
 }
+void computer::debug_key(char key, bool found)
+{
+	mvwprintw(debug_win_, 7, 0, "key:%c, 0x%x", key, key);
+	mvwprintw(debug_win_, 2, 0, "found:%s ", found ? "yes" : "no");
+	wrefresh(debug_win_);
+}

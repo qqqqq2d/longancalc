@@ -12,6 +12,10 @@ struct interface
 	{
 		return obj.get_key();
 	}
+	void debug_key(char key, bool found)
+	{
+		obj.debug_key(key, found);
+	}
 };
 
 #endif //_INTERFACE_H_

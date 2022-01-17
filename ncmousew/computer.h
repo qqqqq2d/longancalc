@@ -15,6 +15,7 @@ struct computer
 	char get_key();
 	void mouse_debug_info(int x, int y);
 	void fill_keyboard_grid();
+	void debug_key(char key, bool found);
 };
 
 #endif //_COMPUTER_H_
