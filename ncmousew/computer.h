@@ -22,6 +22,12 @@ struct computer
 	void show_mem_read(int index, double mem_var);
 	void show_unary_result(char* operation, double result);
 	void show_result(double result);
+	void back_space(int r_index);
+	void clear(int r_index);
+	void add_key(int cur_row, int r_index, char key);
+	void debug_buf(int r_index, int buf_index, char buf[42], char a_buf[20], char b_buf[20]);
+	void end();
+	void show_a(char a_buf[20]);
 };
 
 #endif //_COMPUTER_H_

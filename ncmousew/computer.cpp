@@ -135,14 +135,52 @@ void computer::show_mem_read(int index, double mem_var)
 }
 void computer::show_unary_result(char* operation, double result)
 {
+	mvwprintw(debug_win_, 8, 0, "UNARY");
+	wrefresh(debug_win_);
+	mvwprintw(calc_win_, 1, 0, "                    ");
 	mvwprintw(calc_win_, 1, 0, operation);
 	mvwprintw(calc_win_, 2, 0, "%.10g\n", result);
 	wrefresh(calc_win_);
 }
 void computer::show_result(double result)
 {
+	mvwprintw(calc_win_, 0, 0, "                    ");
 	mvwprintw(debug_win_, 8, 0, "BINARY");
 	wrefresh(debug_win_);
 	mvwprintw(calc_win_, 2, 0, "%.10g\n", result);
+	wrefresh(calc_win_);
+}
+void computer::back_space(int r_index)
+{
+	mvwaddch(calc_win_, 0, r_index, ' ');
+	wmove(calc_win_, 0, r_index);
+	wrefresh(calc_win_);
+}
+void computer::clear(int r_index)
+{
+	mvwprintw(calc_win_, 0, 0, "                   ");
+	mvwprintw(calc_win_, 1, 0, "                   ");
+	mvwprintw(calc_win_, 2, 0, "                   ");
+	wmove(calc_win_, 0, r_index);
+	wrefresh(calc_win_);
+}
+void computer::add_key(int cur_row, int r_index, char key)
+{
+	mvwaddch(calc_win_, cur_row, r_index, key);
+	wrefresh(calc_win_);
+}
+void computer::debug_buf(int r_index, int buf_index, char* buf, char* a_buf, char* b_buf)
+{
+	mvwprintw(debug_win_, 9, 0, "r_index:%d, buf_index:%d, buf:%s, a:%s, b:%s", r_index, buf_index, buf, a_buf, b_buf);
+	wrefresh(debug_win_);
+}
+void computer::end()
+{
+	printf("\033[?1003l\n"); // Disable mouse movement events, as l = low
+	endwin();
+}
+void computer::show_a(char* a_buf)
+{
+	mvwprintw(calc_win_, 0, 0, "%s", a_buf);
 	wrefresh(calc_win_);
 }

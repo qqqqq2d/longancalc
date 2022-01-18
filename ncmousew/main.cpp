@@ -67,6 +67,10 @@ constexpr bool string_view_contains(const std::string_view str, const char op)
 
 int main()
 {
+//	a = std::numbers::pi;
+//	sprintf(a_buf, "%.15g", a);
+//	printf("%s", a_buf);
+//	return 0;
 	bool result_calculated = false;
 	const auto init_r = init_screen_mouse_keyb();
 
@@ -82,6 +86,16 @@ int main()
 	while (true)
 	{
 		key = ui.get_key();
+		if(key == 'p')//PI
+		{
+			a = std::numbers::pi;
+			sprintf(a_buf, "%.13g", a);
+			strcpy(buf, a_buf);
+			r_index= strlen(a_buf);
+			buf_index=r_index;
+			ui.show_a(a_buf);
+			continue;
+		}
 		if (key == 'q')
 		{
 			break;
@@ -93,6 +107,7 @@ int main()
 		if (!found)
 			continue;
 		char fun;
+
 		if (string_view_contains(binary_op, key) || string_view_contains(unary_op, key))
 		{
 			fun = key;
@@ -139,8 +154,6 @@ int main()
 
 		if (string_view_contains(unary_op, key))
 		{
-			mvwprintw(debug_win, 8, 0, "UNARY");
-			wrefresh(debug_win);
 			char operation[40];
 			char* ptr;
 			a = strtod(a_buf, &ptr);
@@ -159,11 +172,11 @@ int main()
 				result = a * a * a;
 				sprintf(operation,"%s^3", a_buf);
 			}
-			for (size_t i = 0; i < 20; i++)
+			if (key == 'Z')
 			{
-				mvwaddch(calc_win, 0, i, ' ');
+				result = 1/a;
+				sprintf(operation,"1/%s", a_buf);
 			}
-
 			ui.show_unary_result(operation, result);
 			r_index = 0;
 			continue;
@@ -197,12 +210,6 @@ int main()
 			{
 				result = std::pow(a,b);
 			}
-			auto count = calc_win_width - r_index;
-			for (size_t i = 0; i < count; i++)
-			{
-				mvwaddch(calc_win, 0, r_index + i, ' ');
-			}
-
 			ui.show_result(result);
 			result_calculated = true;
 			r_index = 0;
@@ -216,22 +223,15 @@ int main()
 		{
 			r_index--;
 			buf_index--;
-			mvwaddch(calc_win, 0, r_index, ' ');
-			wmove(calc_win, 0, r_index);
-			//buf[r_index] = '\0';
 			buf[buf_index] = '\0';
-			wrefresh(calc_win);
+			ui.back_space(r_index);
 			continue;
 		}
 		else if ((key == 'L'))//CLEAR
 		{
 			r_index = 0;
 			buf_index = 0;
-			mvwprintw(calc_win, 0, 0, "                   ");
-			mvwprintw(calc_win, 1, 0, "                   ");
-			mvwprintw(calc_win, 2, 0, "                   ");
-			wmove(calc_win, 0, r_index);
-			wrefresh(calc_win);
+			ui.clear(r_index);
 			cur_row = 0;
 			result_calculated = false;
 			continue;
@@ -239,19 +239,14 @@ int main()
 		else
 		{
 			buf[buf_index] = key;
-			mvwaddch(calc_win, cur_row, r_index, key);
+			ui.add_key(cur_row, r_index, key);
 			++r_index;
 			++buf_index;
 			buf[buf_index] = '\0';
 		}
-
-		mvwprintw(debug_win, 9, 0, "r_index:%d, buf_index:%d, buf:%s, a:%s, b:%s", r_index, buf_index, buf, a_buf, b_buf);
-		wrefresh(debug_win);
-		wrefresh(calc_win);
+		ui.debug_buf(r_index, buf_index, buf, a_buf, b_buf);
 	}
-
-	printf("\033[?1003l\n"); // Disable mouse movement events, as l = low
-	endwin();
+	ui.end();
 	return 0;
 }
 
