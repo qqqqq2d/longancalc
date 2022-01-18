@@ -28,6 +28,14 @@ struct interface
 	{
 		obj.show_mem_read(index, mem_var);
 	}
+	void show_unary_result(char* operation, double result)
+	{
+		obj.show_unary_result(operation, result);
+	}
+	void show_result(double result)
+	{
+		obj.show_result(result);
+	}
 };
 
 #endif //_INTERFACE_H_

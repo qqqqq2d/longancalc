@@ -125,9 +125,24 @@ void computer::show_stored(int index, double mem_var)
 }
 void computer::show_mem_read(int index, double mem_var)
 {
+	mvwprintw(debug_win_, 8, 0, "MEM READ");
+	wrefresh(debug_win_);
 	mvwprintw(debug_win_, 0, 0, "a:%.10g\n", mem_var);
 	wrefresh(debug_win_);
 	mvwprintw(calc_win_, 0, 0, "                    ");
 	mvwprintw(calc_win_, 0, 0, "%.10g", mem_var);
+	wrefresh(calc_win_);
+}
+void computer::show_unary_result(char* operation, double result)
+{
+	mvwprintw(calc_win_, 1, 0, operation);
+	mvwprintw(calc_win_, 2, 0, "%.10g\n", result);
+	wrefresh(calc_win_);
+}
+void computer::show_result(double result)
+{
+	mvwprintw(debug_win_, 8, 0, "BINARY");
+	wrefresh(debug_win_);
+	mvwprintw(calc_win_, 2, 0, "%.10g\n", result);
 	wrefresh(calc_win_);
 }

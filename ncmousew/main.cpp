@@ -120,8 +120,6 @@ int main()
 		}
 		if(string_view_contains(mem_read, key))
 		{
-			mvwprintw(debug_win, 8, 0, "MEM READ");
-			wrefresh(debug_win);
 			int i;
 			for (i = 0; i < mem_read.length(); ++i)
 			{
@@ -136,21 +134,6 @@ int main()
 				buf_index = r_index;
 				ui.show_mem_read(i, a);
 			}
-			/*
-			if (key == 'h')
-				a = memory[0];
-			if (key == 'M')
-				a = memory[1];
-			if (key == 'N')
-				a = memory[2];
-			if (key == 'Q')
-				a = memory[3];
-			mvwprintw(debug_win, 0, 0, "a:%.10g\n", a);
-			wrefresh(debug_win);
-*/
-
-
-
 			continue;
 		}
 
@@ -158,33 +141,31 @@ int main()
 		{
 			mvwprintw(debug_win, 8, 0, "UNARY");
 			wrefresh(debug_win);
-
+			char operation[40];
 			char* ptr;
 			a = strtod(a_buf, &ptr);
 			if (key == 'a')
 			{
 				result = std::sqrt(a);
-				mvwprintw(calc_win, 1, 0, "SQRT(%s)", a_buf);
+				sprintf(operation,"SQRT(%s)", a_buf);
 			}
 			if (key == 'b')
 			{
 				result = a * a;
-				mvwprintw(calc_win, 1, 0, "%s^2", a_buf);
+				sprintf(operation,"%s^2", a_buf);
 			}
 			if (key == 'c')
 			{
 				result = a * a * a;
-				mvwprintw(calc_win, 1, 0, "%s^3", a_buf);
+				sprintf(operation,"%s^3", a_buf);
 			}
-			auto count = calc_win_width - r_index;
 			for (size_t i = 0; i < 20; i++)
 			{
 				mvwaddch(calc_win, 0, i, ' ');
 			}
 
-			mvwprintw(calc_win, 2, 0, "%.10g\n", result);
+			ui.show_unary_result(operation, result);
 			r_index = 0;
-			wrefresh(calc_win);
 			continue;
 		}
 		if (key == '=' || key == '\n')
@@ -195,9 +176,6 @@ int main()
 			char* ptr;
 			a = strtod(a_buf, &ptr);
 			b = strtod(b_buf, &ptr);
-
-			mvwprintw(debug_win, 8, 0, "BINARY");
-			wrefresh(debug_win);
 
 			if (fun == '+')
 			{
@@ -215,16 +193,19 @@ int main()
 			{
 				result = a / b;
 			}
+			else if (fun == 'P')
+			{
+				result = std::pow(a,b);
+			}
 			auto count = calc_win_width - r_index;
 			for (size_t i = 0; i < count; i++)
 			{
 				mvwaddch(calc_win, 0, r_index + i, ' ');
 			}
 
-			mvwprintw(calc_win, 2, 0, "%.10g\n", result);
+			ui.show_result(result);
 			result_calculated = true;
 			r_index = 0;
-			wrefresh(calc_win);
 			continue;
 		}
 

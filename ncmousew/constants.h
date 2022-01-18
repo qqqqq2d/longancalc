@@ -55,7 +55,7 @@ constexpr auto row_h = (keyb_grid_height/rows);
 constexpr int calc_win_height = 5;
 constexpr int calc_win_width = 20;
 constexpr std::string_view numbers ="0123456789";
-constexpr std::string_view binary_op ="+-*/";
+constexpr std::string_view binary_op ="+-*/P";
 constexpr std::string_view unary_op ="abc";
 constexpr std::string_view spec_keys ="\x7f\xa\x7.=CL";
 constexpr std::string_view mem_read ="hMNQ";

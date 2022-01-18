@@ -20,6 +20,8 @@ struct computer
 	void debug_mem_write(double mem_var);
 	void show_stored(int index, double mem_var);
 	void show_mem_read(int index, double mem_var);
+	void show_unary_result(char* operation, double result);
+	void show_result(double result);
 };
 
 #endif //_COMPUTER_H_
