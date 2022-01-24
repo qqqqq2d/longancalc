@@ -56,14 +56,17 @@ void computer::mouse_debug_info(int x, int y)
 		mvwprintw(debug_win_, 5, 0, "     ");
 	wrefresh(debug_win_);
 }
-computer::computer(WINDOW* debugWin, WINDOW* calc_win, MEVENT& event, const init_result result) : debug_win_(debugWin), calc_win_(calc_win), event_(event), result_(result)
+
+computer::computer()
 {
+	result_ = init_screen_mouse_keyb();
+	debug_win_ = newwin(debug_win_height, debug_win_width, 1, debug_win_startx);
+	calc_win_ = newwin(calc_win_height, calc_win_width, 1, 5);
 	draw_keyboard_grid(keyb_starty, 0, keyb_starty + keyb_grid_height, keyb_grid_width, cols, rows);
 	fill_keyboard_grid();
 	rectangle_around_window(debug_win_height, debug_win_width, 1, debug_win_startx, "DEBUG");
 	rectangle_around_window(calc_win_height, calc_win_width, 1, 5, "CALC");
 	refresh();
-	scrollok(debug_win_, TRUE);
 	mvwprintw(debug_win_, 0, 0, "GCC version:%s", __VERSION__);
 	wrefresh(debug_win_);
 
@@ -137,6 +140,7 @@ void computer::show_unary_result(char* operation, double result)
 {
 	mvwprintw(debug_win_, 8, 0, "UNARY");
 	wrefresh(debug_win_);
+	mvwprintw(calc_win_, 0, 0, "                    ");
 	mvwprintw(calc_win_, 1, 0, "                    ");
 	mvwprintw(calc_win_, 1, 0, operation);
 	mvwprintw(calc_win_, 2, 0, "%.10g\n", result);
@@ -144,7 +148,6 @@ void computer::show_unary_result(char* operation, double result)
 }
 void computer::show_result(double result)
 {
-	mvwprintw(calc_win_, 0, 0, "                    ");
 	mvwprintw(debug_win_, 8, 0, "BINARY");
 	wrefresh(debug_win_);
 	mvwprintw(calc_win_, 2, 0, "%.10g\n", result);
@@ -184,3 +187,22 @@ void computer::show_a(char* a_buf)
 	mvwprintw(calc_win_, 0, 0, "%s", a_buf);
 	wrefresh(calc_win_);
 }
+init_result computer::init_screen_mouse_keyb()
+{
+	initscr();
+
+	cbreak(); // The cbreak routine disables line buffering and erase/kill character-processing
+	noecho(); // noecho routines control whether characters typed by the user are echoed
+	keypad(stdscr, TRUE); // If enabled (bf is TRUE), the user can press a function key (such as an arrow key)
+	mouseinterval(0); // Use mouseinterval(0) to disable click resolution
+
+	// all mouse events
+	const mmask_t mouse_support = mousemask(ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, NULL);
+	if (!mouse_support)
+		return init_result::error;
+
+	printf("\033[?1003h\n"); // Makes the terminal report mouse movement events
+
+	return init_result::success;
+}
+

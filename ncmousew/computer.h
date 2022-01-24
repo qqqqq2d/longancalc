@@ -6,13 +6,11 @@
 
 struct computer
 {
-
 	WINDOW* debug_win_;
 	WINDOW* calc_win_;
-	MEVENT & event_;
+	MEVENT event_;
 	init_result result_;
-
-	computer(WINDOW* debugWin, WINDOW* calc_win, MEVENT& event, const init_result result);
+	computer();
 	char get_key();
 	void mouse_debug_info(int x, int y);
 	void fill_keyboard_grid();
@@ -28,6 +26,7 @@ struct computer
 	void debug_buf(int r_index, int buf_index, char buf[42], char a_buf[20], char b_buf[20]);
 	void end();
 	void show_a(char a_buf[20]);
+	init_result init_screen_mouse_keyb();
 };
 
 #endif //_COMPUTER_H_
