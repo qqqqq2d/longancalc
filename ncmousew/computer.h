@@ -27,6 +27,7 @@ struct computer
 	void end();
 	void show_a(char a_buf[20]);
 	init_result init_screen_mouse_keyb();
+
 };
 
 #endif //_COMPUTER_H_

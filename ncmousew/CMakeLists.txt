@@ -10,5 +10,5 @@ add_executable (ncmousew
 main.cpp
 ncfunctions.cpp ncfunctions.h
 calc_colors.h
-        print_calc.cpp print_calc.h interface.h computer.cpp computer.h button.h init_result.h)
+        print_calc.cpp print_calc.h interface.h computer.cpp computer.h button.h init_result.h calculator.h)
 target_link_libraries(ncmousew m ncurses stdc++)
