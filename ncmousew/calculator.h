@@ -53,7 +53,7 @@ struct calculator
 	calculator(interface& ui_par) : ui(ui_par)
 	{
 	}
-	void handle_key_added(interface& ui, int cur_row, char key)
+	void handle_key_added(int cur_row, char key)
 	{
 		buf[buf_index] = key;
 		ui.add_key(cur_row, r_index, key);
@@ -61,7 +61,7 @@ struct calculator
 		++buf_index;
 		buf[buf_index] = '\0';
 	}
-	void handle_clear(interface& ui, bool& result_calculated, int& cur_row)
+	void handle_clear(bool& result_calculated, int& cur_row)
 	{
 		r_index = 0;
 		buf_index = 0;
@@ -69,18 +69,17 @@ struct calculator
 		cur_row = 0;
 		result_calculated = false;
 	}
-	void handle_back_space(interface& ui)
+	void handle_back_space()
 	{
 		r_index--;
 		buf_index--;
 		buf[buf_index] = '\0';
 		ui.back_space(r_index);
 	}
-	void handle_binary_operation(interface& ui, char fun)
+	void handle_binary_operation(char fun)
 	{
 		auto pos = strlen(a_buf);
 		strcpy(b_buf, buf + pos + 1);
-		//printf("buf:%s len:%d b_buf:%s\n", buf, pos, b_buf);
 		char* ptr;
 		a = strtod(a_buf, &ptr);
 		b = strtod(b_buf, &ptr);
@@ -108,7 +107,7 @@ struct calculator
 		ui.show_result(result);
 		r_index = 0;
 	}
-	void handle_unary_operation(interface& ui, char key)
+	void handle_unary_operation(char key)
 	{
 		char operation[40];
 		char* ptr;
@@ -136,7 +135,7 @@ struct calculator
 		ui.show_unary_result(operation, result);
 		r_index = 0;
 	}
-	void handle_mem_read(interface& ui, char key)
+	void handle_mem_read(char key)
 	{
 		int i;
 		for (i = 0; i < mem_read.length(); ++i)
@@ -153,7 +152,7 @@ struct calculator
 			ui.show_mem_read(i, a);
 		}
 	}
-	void handle_mem_write(bool result_calculated, interface& ui, char key)
+	void handle_mem_write(bool result_calculated, char key)
 	{
 		ui.debug_mem_write(result);
 		if (result_calculated)
@@ -170,7 +169,7 @@ struct calculator
 			}
 		}
 	}
-	void pi(interface& ui)
+	void pi()
 	{
 		a = std::numbers::pi;
 		sprintf(a_buf, "%.13g", a);
@@ -184,7 +183,7 @@ struct calculator
 		key = ui.get_key();
 		if (key == 'p')//PI
 		{
-			pi(ui);
+			pi();
 			return true;
 		}
 		if (key == 'q')
@@ -193,7 +192,7 @@ struct calculator
 		}
 		if (key == 0) return true;
 		auto found = filter_keys(key);
-		ui.debug_key(key, key);
+		ui.debug_key(key, found);
 
 		if (!found)
 			return true;
@@ -208,22 +207,22 @@ struct calculator
 		}
 		if (string_view_contains(mem_write, key))
 		{
-			handle_mem_write(result_calculated, ui, key);
+			handle_mem_write(result_calculated, key);
 			return true;
 		}
 		if (string_view_contains(mem_read, key))
 		{
-			handle_mem_read(ui, key);
+			handle_mem_read(key);
 			return true;
 		}
 		if (string_view_contains(unary_op, key))
 		{
-			handle_unary_operation(ui, key);
+			handle_unary_operation(key);
 			return true;
 		}
 		if (key == '=' || key == '\n')
 		{
-			handle_binary_operation(ui, fun);
+			handle_binary_operation(fun);
 			result_calculated = true;
 			return true;
 		}
@@ -233,17 +232,17 @@ struct calculator
 
 		if ((key == 'C' || key == 127 || key == 0x7) && (r_index > 0))
 		{
-			handle_back_space(ui);
+			handle_back_space();
 			return true;
 		}
 		else if ((key == 'L'))//CLEAR
 		{
-			handle_clear(ui, result_calculated, cur_row);
+			handle_clear(result_calculated, cur_row);
 			return true;
 		}
 		else
 		{
-			handle_key_added(ui, cur_row, key);
+			handle_key_added(cur_row, key);
 		}
 		ui.debug_buf(r_index, buf_index, buf, a_buf, b_buf);
 		return true;
