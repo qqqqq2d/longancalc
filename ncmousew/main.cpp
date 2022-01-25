@@ -25,7 +25,7 @@ int main()
 
 	while (true)
 	{
-		if(!calc.loop_step<calculator>())
+		if(!calc.loop_step())
 			break;
 	}
 	ui.end();
