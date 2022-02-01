@@ -1,11 +1,10 @@
 #ifndef _CALCULATOR_H_
 #define _CALCULATOR_H_
 #include "interface.h"
-#include "computer.h"
+
 
 #include "calculator.h"
-#include "computer.h"
-#include "interface.h"
+#include "constants.h"
 #include <string>
 #include <string_view>
 #include <cmath>
