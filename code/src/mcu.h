@@ -1,7 +1,8 @@
 #ifndef F6B66ADB_11B6_4425_BD95_1890A7B31894
 #define F6B66ADB_11B6_4425_BD95_1890A7B31894
 #include "init_result.h"
-
+#include "constants.h"
+constexpr bool debug = false;
 struct mcu
 {
 	mcu();
@@ -21,7 +22,11 @@ struct mcu
 	void end();
 	void show_a(char a_buf[20]);
 	init_result init_screen_mouse_keyb();
+	//                    r0   r1   r2   r3    r4   r5    r6    r7          
+	int rowPins[rows] = {PC14, PA4, PB4, PB9, PA6, PB6, PB10, PA11};
 
+	//                    c0    c1    c2   c3    c4
+	int colPins[cols] = {PC15, PC13, PB8, PB5, PB11 };
 };
 
 
