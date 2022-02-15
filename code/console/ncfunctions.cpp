@@ -33,7 +33,7 @@ void draw_keyboard_grid(int y1, int x1, int y2, int x2, int columns, int rows)
 
 void rectangle_around_window(int height, int width, int starty, int startx)
 {
-	rectangle(starty - 1, startx - 1, starty + height + 1, startx + width + 1);
+	rectangle(starty - 1, startx - 1, starty + height, startx + width + 1);
 }
 
 void rectangle_around_window(int height, int width, int starty, int startx, const char* title)
@@ -42,7 +42,7 @@ void rectangle_around_window(int height, int width, int starty, int startx, cons
 	init_pair(1, COLOR_GREEN, COLOR_BLACK);
 	attron(COLOR_PAIR(1));
 
-	rectangle(starty - 1, startx - 1, starty + height + 1, startx + width + 1);
+	rectangle(starty - 1, startx - 1, starty + height, startx + width + 1);
 	mvprintw(starty - 1, startx + (width - static_cast<int>(strlen(title))) / 2, title);
 	attroff(COLOR_PAIR(1));
 }

@@ -172,11 +172,17 @@ void computer::add_key(int cur_row, int r_index, char key)
 	mvwaddch(calc_win_, cur_row, r_index, key);
 	wrefresh(calc_win_);
 }
-void computer::debug_buf(int r_index, int buf_index, char* buf, char* a_buf, char* b_buf)
+void computer::debug_buf(char fun, int r_index, int buf_index, char* buf, char* a_buf, char* b_buf)
 {
-	mvwprintw(debug_win_, 9, 0, "r_index:%d, buf_index:%d, buf:%s, a:%s, b:%s", r_index, buf_index, buf, a_buf, b_buf);
+	mvwprintw(debug_win_, 9, 0, "fun:%c, r_index:%d, buf_index:%d, buf:%s, a:%s, b:%s", fun, r_index, buf_index, buf, a_buf, b_buf);
 	wrefresh(debug_win_);
 }
+
+void computer::debug_handle_binary_operation(char fun, char * a_buf, char * b_buf, char * buf, int pos, double a, double b)
+{
+	mvwprintw(debug_win_, 10, 0,"fun:%c, a_buf:%s, b_buf:%s, buf:%s, pos:%d, a:%g, b:%g\n", fun, a_buf, b_buf, buf, pos, a, b);
+}
+
 void computer::end()
 {
 	printf("\033[?1003l\n"); // Disable mouse movement events, as l = low

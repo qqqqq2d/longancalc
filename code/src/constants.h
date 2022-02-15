@@ -9,7 +9,7 @@ constexpr int cols = 5; // set display to three columns
 constexpr int keyb_grid_width = 90;
 constexpr int keyb_grid_height = 48;
 constexpr int keyb_starty = 13;
-constexpr int debug_win_height = 10;
+constexpr int debug_win_height = 11;
 constexpr int debug_win_width = 60;
 constexpr int debug_win_startx = 29;
 
