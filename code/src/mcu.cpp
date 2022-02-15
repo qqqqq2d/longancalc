@@ -77,7 +77,7 @@ void mcu::fill_keyboard_grid()
 }
 void mcu::debug_key(char key, bool found)
 {
-	
+	printf("debug_key:%c, found:%d\n", key, found);
 }
 void mcu::debug_mem_write(double mem_var)
 {
@@ -97,6 +97,7 @@ void mcu::show_unary_result(char* operation, double result)
 }
 void mcu::show_result(double result)
 {
+	printf("result:%.10g\n", result);
 	char temp_buf[20];
 	sprintf(temp_buf,"%.10g", result);
 	LCD_ShowString(0, 16*2, (u8 const *) temp_buf, GBLUE);
@@ -115,10 +116,16 @@ void mcu::add_key(int cur_row, int r_index, char key)
 	if(debug)
 		printf("add_key:%c, r_index:%d, cur_row:%d\n", key, r_index, cur_row);
 }
-void mcu::debug_buf(int r_index, int buf_index, char* buf, char* a_buf, char* b_buf)
+void mcu::debug_buf(char fun, int r_index, int buf_index, char* buf, char* a_buf, char* b_buf)
 {
-	
+	printf("[debug_buf] fun:%x, r_index:%d, buf_index:%d, buf:%s, a:%s, b:%s\n", fun, r_index, buf_index, buf, a_buf, b_buf);
 }
+
+void mcu::debug_handle_binary_operation(char fun, char * a_buf, char * b_buf, char * buf, int pos, double a, double b)
+{
+	printf("fun:%c, a_buf:%s, b_buf:%s, buf:%s, pos:%d, a:%g, b:%g\n", fun, a_buf, b_buf, buf, pos, a, b);
+}
+
 void mcu::end()
 {
 	

@@ -38,6 +38,7 @@ struct calculator
 	int r_index = 0;
 	int buf_index = 0;
 
+	char fun;
 	double a = 0;
 	double b = 0;
 	double result = 0;
@@ -51,6 +52,8 @@ struct calculator
 
 	calculator(interface& ui_par) : ui(ui_par)
 	{
+		a_buf[0] = '\0';
+		b_buf[0] = '\0';
 	}
 	void handle_key_added(int cur_row, char key)
 	{
@@ -70,18 +73,21 @@ struct calculator
 	}
 	void handle_back_space()
 	{
-		r_index--;
-		buf_index--;
+		if(r_index>0)
+			r_index--;
+		if(buf_index>0)
+			buf_index--;
 		buf[buf_index] = '\0';
 		ui.back_space(r_index);
 	}
 	void handle_binary_operation(char fun)
 	{
 		auto pos = strlen(a_buf);
-		strcpy(b_buf, buf + pos + 1);
+		strcpy(b_buf, buf + pos + 1);		
 		char* ptr;
 		a = strtod(a_buf, &ptr);
 		b = strtod(b_buf, &ptr);
+		ui.debug_handle_binary_operation(fun, a_buf, b_buf, buf, pos, a, b);
 
 		if (fun == '+')
 		{
@@ -195,7 +201,7 @@ struct calculator
 
 		if (!found)
 			return true;
-		char fun;
+
 
 		if (string_view_contains(binary_op, key) || string_view_contains(unary_op, key))
 		{
@@ -243,7 +249,7 @@ struct calculator
 		{
 			handle_key_added(cur_row, key);
 		}
-		ui.debug_buf(r_index, buf_index, buf, a_buf, b_buf);
+		ui.debug_buf(fun, r_index, buf_index, buf, a_buf, b_buf);
 		return true;
 	}
 };

@@ -48,9 +48,9 @@ struct interface
 	{
 		obj.add_key(cur_row, r_index, key);
 	}
-	void debug_buf(int r_index, int buf_index, char buf[42], char a_buf[20], char b_buf[20])
+	void debug_buf(char fun, int r_index, int buf_index, char buf[42], char a_buf[20], char b_buf[20])
 	{
-		obj.debug_buf(r_index, buf_index, buf, a_buf, b_buf);
+		obj.debug_buf(fun, r_index, buf_index, buf, a_buf, b_buf);
 	}
 	void end()
 	{
@@ -59,6 +59,10 @@ struct interface
 	void show_a(char a_buf[20])
 	{
 		obj.show_a(a_buf);
+	}
+	void debug_handle_binary_operation(char fun, char * a_buf, char * b_buf, char * buf, int pos, double a, double b)
+	{
+		obj.debug_handle_binary_operation(fun, a_buf, b_buf, buf, pos, a, b);
 	}
 };
 
