@@ -71,14 +71,14 @@ struct calculator
 		cur_row = 0;
 		result_calculated = false;
 	}
-	void handle_back_space()
+	void handle_back_space(int cur_row)
 	{
 		if(r_index>0)
 			r_index--;
 		if(buf_index>0)
 			buf_index--;
 		buf[buf_index] = '\0';
-		ui.back_space(r_index);
+		ui.back_space(cur_row, r_index);
 	}
 	void handle_binary_operation(char fun)
 	{
@@ -198,11 +198,10 @@ struct calculator
 		if (key == 0) return true;
 		auto found = filter_keys(key);
 		ui.debug_key(key, found);
-
+		//ui.debug("key ok");
 		if (!found)
 			return true;
-
-
+		
 		if (string_view_contains(binary_op, key) || string_view_contains(unary_op, key))
 		{
 			fun = key;
@@ -210,11 +209,13 @@ struct calculator
 			r_index = 0;
 			cur_row = 1;
 		}
+		//ui.debug("before binary_op");
 		if (string_view_contains(mem_write, key))
 		{
 			handle_mem_write(result_calculated, key);
 			return true;
 		}
+		ui.debug("no mem_write");
 		if (string_view_contains(mem_read, key))
 		{
 			handle_mem_read(key);
@@ -237,7 +238,7 @@ struct calculator
 
 		if ((key == 'C' || key == 127 || key == 0x7) && (r_index > 0))
 		{
-			handle_back_space();
+			handle_back_space(cur_row);
 			return true;
 		}
 		else if ((key == 'L'))//CLEAR

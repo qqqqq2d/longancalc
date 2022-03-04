@@ -36,9 +36,9 @@ struct interface
 	{
 		obj.show_result(result);
 	}
-	void back_space(int r_index)
+	void back_space(int cur_row, int r_index)
 	{
-		obj.back_space(r_index);
+		obj.back_space(cur_row, r_index);
 	}
 	void clear(int r_index)
 	{
@@ -59,6 +59,10 @@ struct interface
 	void show_a(char a_buf[20])
 	{
 		obj.show_a(a_buf);
+	}
+	void debug(char *buf)
+	{
+		obj.debug(buf);
 	}
 	void debug_handle_binary_operation(char fun, char * a_buf, char * b_buf, char * buf, int pos, double a, double b)
 	{

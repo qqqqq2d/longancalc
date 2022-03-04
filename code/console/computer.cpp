@@ -64,8 +64,8 @@ computer::computer()
 	calc_win_ = newwin(calc_win_height, calc_win_width, 1, 5);
 	draw_keyboard_grid(keyb_starty, 0, keyb_starty + keyb_grid_height, keyb_grid_width, cols, rows);
 	fill_keyboard_grid();
-	rectangle_around_window(debug_win_height, debug_win_width, 1, debug_win_startx, "DEBUG");
-	rectangle_around_window(calc_win_height, calc_win_width, 1, 5, "CALC");
+	rectangle_around_window(debug_win_height, debug_win_width, 1, debug_win_startx);
+	rectangle_around_window(calc_win_height, calc_win_width, 1, 5);
 	refresh();
 	mvwprintw(debug_win_, 0, 0, "GCC version:%s", __VERSION__);
 	wrefresh(debug_win_);
@@ -153,10 +153,10 @@ void computer::show_result(double result)
 	mvwprintw(calc_win_, 2, 0, "%.10g\n", result);
 	wrefresh(calc_win_);
 }
-void computer::back_space(int r_index)
+void computer::back_space(int cur_row, int r_index)
 {
-	mvwaddch(calc_win_, 0, r_index, ' ');
-	wmove(calc_win_, 0, r_index);
+	mvwaddch(calc_win_, cur_row, r_index, ' ');
+	wmove(calc_win_, cur_row, r_index);
 	wrefresh(calc_win_);
 }
 void computer::clear(int r_index)
@@ -193,6 +193,12 @@ void computer::show_a(char* a_buf)
 	mvwprintw(calc_win_, 0, 0, "%s", a_buf);
 	wrefresh(calc_win_);
 }
+
+void computer::debug(char *buf)
+{
+	mvwprintw(debug_win_, 10, 0,buf);
+}
+
 init_result computer::init_screen_mouse_keyb()
 {
 	initscr();

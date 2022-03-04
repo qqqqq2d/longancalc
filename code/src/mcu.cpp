@@ -14,6 +14,12 @@ extern "C" {
 
 char mcu::get_key()
 {
+    if(digitalRead(PB7) == LOW)
+    {
+        digitalWrite(LED_GREEN, LOW);
+        printf("OFF\n");
+    }
+
       char k = 0;
       
       for(char c = 0; c < cols; c++)
@@ -41,13 +47,13 @@ void mcu::mouse_debug_info(int x, int y)
 
 mcu::mcu()
 {
-	pinMode(PB7, INPUT_PULLUP);
+	pinMode(PB7, INPUT_PULLUP);// ON/OFF nupp
 	digitalWrite(PB7, HIGH);
 
-	constexpr int analogPin = PA3;
+	constexpr int analogPin = PA3;//patarei pinge
 	pinMode(analogPin,INPUT_ANALOG);
 
-	pinMode(LED_GREEN, OUTPUT);
+	pinMode(LED_GREEN, OUTPUT);//kalkulaatori väljalülitamise väljund
 	digitalWrite(LED_GREEN, HIGH);
 
 	init_uart0();
@@ -81,11 +87,32 @@ void mcu::debug_key(char key, bool found)
 }
 void mcu::debug_mem_write(double mem_var)
 {
-	
+	printf("MEM WR:%.10g\n", mem_var);
 }
 void mcu::show_stored(int index, double mem_var)
 {
-	
+	char temp_buf[20];		
+	if(index == 0)
+	{
+		LCD_ShowString(0, 16*3, (u8 const *) "          ", GBLUE);
+		sprintf(temp_buf,"1:%.10g", mem_var);
+		LCD_ShowString(0, 16*3, (u8 const *) temp_buf, GBLUE);
+	}
+	if(index == 1)
+	{
+		//mvwprintw(calc_win_, 3, 10, "          ");
+		//mvwprintw(calc_win_, 3, 10, "2:%.10g", mem_var);
+	}
+	if(index == 2)
+	{
+		//mvwprintw(calc_win_, 4, 0, "          ");
+		//mvwprintw(calc_win_, 4, 0, "3:%.10g", mem_var);
+	}
+	if(index == 3)
+	{
+		//mvwprintw(calc_win_, 4, 10, "          ");
+		//mvwprintw(calc_win_, 4, 10, "4:%.10g\n", mem_var);
+	}
 }
 void mcu::show_mem_read(int index, double mem_var)
 {
@@ -93,7 +120,11 @@ void mcu::show_mem_read(int index, double mem_var)
 }
 void mcu::show_unary_result(char* operation, double result)
 {
-	
+	LCD_ShowString(0, 0, (u8 const *) operation, GBLUE);
+	printf("unary_result:%.10g\n", result);
+	char temp_buf[20];
+	sprintf(temp_buf,"%.10g", result);
+	LCD_ShowString(0, 16, (u8 const *) temp_buf, GBLUE);
 }
 void mcu::show_result(double result)
 {
@@ -102,9 +133,9 @@ void mcu::show_result(double result)
 	sprintf(temp_buf,"%.10g", result);
 	LCD_ShowString(0, 16*2, (u8 const *) temp_buf, GBLUE);
 }
-void mcu::back_space(int r_index)
+void mcu::back_space(int cur_row, int r_index)
 {
-	
+	LCD_ShowChar(r_index*8,16*cur_row,' ',0,GBLUE);
 }
 void mcu::clear(int r_index)
 {
@@ -113,7 +144,7 @@ void mcu::clear(int r_index)
 void mcu::add_key(int cur_row, int r_index, char key)
 {
 	LCD_ShowChar(r_index*8,16*cur_row,key,0,GBLUE);
-	if(debug)
+	if(debugging)
 		printf("add_key:%c, r_index:%d, cur_row:%d\n", key, r_index, cur_row);
 }
 void mcu::debug_buf(char fun, int r_index, int buf_index, char* buf, char* a_buf, char* b_buf)
@@ -132,7 +163,11 @@ void mcu::end()
 }
 void mcu::show_a(char* a_buf)
 {
-	
+	LCD_ShowString(0, 0, (u8 const *) a_buf, GBLUE);
+}
+void mcu::debug(char *buf)
+{
+	printf("debug:%s\n", buf);
 }
 init_result mcu::init_screen_mouse_keyb()
 {
