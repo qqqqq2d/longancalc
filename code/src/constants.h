@@ -54,13 +54,13 @@ constexpr auto row_h = (keyb_grid_height/rows);
 
 constexpr int calc_win_height = 5;
 constexpr int calc_win_width = 20;
+
 constexpr std::string_view numbers ="0123456789";
 constexpr std::string_view binary_op ="+-*/P";
 constexpr std::string_view unary_op ="abcZ";
 constexpr std::string_view spec_keys ="\x7f\xa\x7.=CLp";
 constexpr std::string_view mem_read ="hMNQ";
 constexpr std::string_view mem_write ="gEFG";
-
-
+constexpr std::string_view color_keys ="fIJK";
 
 #endif /* CA096F79_7057_4924_BEA5_7F94DB412F4A */

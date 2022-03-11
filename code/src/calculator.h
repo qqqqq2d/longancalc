@@ -1,14 +1,14 @@
 #ifndef _CALCULATOR_H_
 #define _CALCULATOR_H_
+
 #include "interface.h"
-
-
-#include "calculator.h"
-#include "constants.h"
 #include <string>
 #include <string_view>
 #include <cmath>
 #include <cstring>
+#include "constants.h"
+
+
 
 constexpr bool string_view_contains(const std::string_view str, const char op)
 {
@@ -20,13 +20,19 @@ bool filter_keys(char key)
 {
 	return (string_view_contains(binary_op, key)) || (string_view_contains(unary_op, key))
 		   || (string_view_contains(spec_keys, key)) || (string_view_contains(numbers, key))
-		   || (string_view_contains(mem_write, key)) || (string_view_contains(mem_read, key));
+		   || (string_view_contains(color_keys, key)) || (string_view_contains(mem_write, key)) || (string_view_contains(mem_read, key));
 }
+
+// enum colors {
+// 	red, green, blue, white
+// };
 
 
 template<typename interface>
 struct calculator
 {
+	//colors cur_color = colors::blue;
+
 	int cur_row = 0;
 	char key = 0;
 
@@ -174,6 +180,12 @@ struct calculator
 			}
 		}
 	}
+
+	void handle_change_color(char key)
+	{
+		ui.debug("changing color...");
+	}
+
 	void pi()
 	{
 		a = M_PI;
@@ -213,6 +225,11 @@ struct calculator
 		if (string_view_contains(mem_write, key))
 		{
 			handle_mem_write(result_calculated, key);
+			return true;
+		}
+		if (string_view_contains(color_keys, key))
+		{
+			handle_change_color(key);
 			return true;
 		}
 		ui.debug("no mem_write");
