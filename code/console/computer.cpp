@@ -107,22 +107,22 @@ void computer::show_stored(int index, double mem_var)
 	if(index == 0)
 	{
 		mvwprintw(calc_win_, 3, 0, "          ");
-		mvwprintw(calc_win_, 3, 0, "1:%.10g", mem_var);
+		mvwprintw(calc_win_, 3, 0, "1:%.5g", mem_var);
 	}
 	if(index == 1)
 	{
 		mvwprintw(calc_win_, 3, 10, "          ");
-		mvwprintw(calc_win_, 3, 10, "2:%.10g", mem_var);
+		mvwprintw(calc_win_, 3, 10, "2:%.5g", mem_var);
 	}
 	if(index == 2)
 	{
 		mvwprintw(calc_win_, 4, 0, "          ");
-		mvwprintw(calc_win_, 4, 0, "3:%.10g", mem_var);
+		mvwprintw(calc_win_, 4, 0, "3:%.5g", mem_var);
 	}
 	if(index == 3)
 	{
 		mvwprintw(calc_win_, 4, 10, "          ");
-		mvwprintw(calc_win_, 4, 10, "4:%.10g\n", mem_var);
+		mvwprintw(calc_win_, 4, 10, "4:%.5g\n", mem_var);
 	}
 	wrefresh(calc_win_);
 }

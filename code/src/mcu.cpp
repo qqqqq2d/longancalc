@@ -62,8 +62,8 @@ mcu::mcu()
 	Lcd_Init();
 	LCD_Clear(BLACK);
 	char buf[20];
-	sprintf(buf, "1234567890123456789");
-	LCD_ShowString(0, 16*4, (u8 const *) buf, GBLUE);
+	sprintf(buf, "kalkulaator");
+	LCD_ShowString(8*8, 0, (u8 const *) buf, GBLUE);
 
 	for(auto r = 0; r < rows; r++)
 	{
@@ -94,29 +94,34 @@ void mcu::show_stored(int index, double mem_var)
 	char temp_buf[20];		
 	if(index == 0)
 	{
-		LCD_ShowString(0, 16*3, (u8 const *) "          ", GBLUE);
-		sprintf(temp_buf,"1:%.10g", mem_var);
+		LCD_ShowString(0, 16*3, (u8 const *) "       ", GBLUE);
+		sprintf(temp_buf,"1:%.5g", mem_var);
 		LCD_ShowString(0, 16*3, (u8 const *) temp_buf, GBLUE);
 	}
 	if(index == 1)
 	{
-		//mvwprintw(calc_win_, 3, 10, "          ");
-		//mvwprintw(calc_win_, 3, 10, "2:%.10g", mem_var);
+		LCD_ShowString(10*8, 16*3, (u8 const *) "       ", GBLUE);
+		sprintf(temp_buf,"2:%.5g", mem_var);
+		LCD_ShowString(10*8, 16*3, (u8 const *) temp_buf, GBLUE);
 	}
 	if(index == 2)
 	{
-		//mvwprintw(calc_win_, 4, 0, "          ");
-		//mvwprintw(calc_win_, 4, 0, "3:%.10g", mem_var);
+		LCD_ShowString(0, 16*4, (u8 const *) "       ", GBLUE);
+		sprintf(temp_buf,"3:%.5g", mem_var);
+		LCD_ShowString(0, 16*4, (u8 const *) temp_buf, GBLUE);
 	}
 	if(index == 3)
 	{
-		//mvwprintw(calc_win_, 4, 10, "          ");
-		//mvwprintw(calc_win_, 4, 10, "4:%.10g\n", mem_var);
+		LCD_ShowString(10*8, 16*4, (u8 const *) "       ", GBLUE);
+		sprintf(temp_buf,"4:%.5g", mem_var);
+		LCD_ShowString(10*8, 16*4, (u8 const *) temp_buf, GBLUE);
 	}
 }
 void mcu::show_mem_read(int index, double mem_var)
 {
-	
+	char temp_buf[20];
+	sprintf(temp_buf,"%.10g", mem_var);
+	LCD_ShowString(0, 0, (u8 const *) temp_buf, GBLUE);
 }
 void mcu::show_unary_result(char* operation, double result)
 {
@@ -139,7 +144,10 @@ void mcu::back_space(int cur_row, int r_index)
 }
 void mcu::clear(int r_index)
 {
-	LCD_Clear(BLACK);
+	LCD_ShowString(0, 0, (u8 const *) "                   ", GBLUE);
+	LCD_ShowString(0, 16, (u8 const *) "                   ", GBLUE);
+	LCD_ShowString(0, 16*2, (u8 const *) "                  ", GBLUE);
+	//LCD_Clear(BLACK);
 }
 void mcu::add_key(int cur_row, int r_index, char key)
 {
