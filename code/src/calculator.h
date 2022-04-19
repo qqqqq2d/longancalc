@@ -111,7 +111,7 @@ struct calculator
 		{
 			result = a / b;
 		}
-		else if (fun == 'P')
+		else if (fun == '^')
 		{
 			result = pow(a, b);
 		}
@@ -128,15 +128,15 @@ struct calculator
 			result = sqrt(a);
 			sprintf(operation, "SQRT(%s)", a_buf);
 		}
-		if (key == 'b')
+		if (key == 'c')
 		{
 			result = a * a;
 			sprintf(operation, "%s^2", a_buf);
 		}
-		if (key == 'c')
+		if (key == 'b')
 		{
-			result = a * a * a;
-			sprintf(operation, "%s^3", a_buf);
+			result = pow(a, 1.0/3.0);
+			sprintf(operation, "%s^1/3", a_buf);
 		}
 		if (key == 'Z')
 		{

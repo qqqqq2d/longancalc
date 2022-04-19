@@ -29,7 +29,7 @@ constexpr auto key_names =
 	sva("R1", "R2", "R3", "R4","ON/OFF",
 		"W1", "W2", "W3", "W4", "BAT",
 		"RED", "GREEN", "BLUE", "WHITE", "CLEAR",
-		"SQRT", "X^2", "X^3","X^Y","<",
+		"SQRT", "X^1/3", "X^2","X^Y","<",
 
 		"7", "8", "9", "1/x", "|x|",
 		"4", "5", "6", "*", ":",
@@ -40,7 +40,7 @@ constexpr char keys[rows][cols] = {
 	{'h','M','N','Q','q'},
 	{'g','E','F','G','H'},
 	{'f','I','J','K','L'},
-	{'a','b','c','P','C'},
+	{'a','b','c','^','C'},
 
 	{'7','8','9', 'Z','A'},
 	{'4','5','6','*','/'},
@@ -56,7 +56,7 @@ constexpr int calc_win_height = 5;
 constexpr int calc_win_width = 20;
 
 constexpr std::string_view numbers ="0123456789";
-constexpr std::string_view binary_op ="+-*/P";
+constexpr std::string_view binary_op ="+-*/^";
 constexpr std::string_view unary_op ="abcZ";
 constexpr std::string_view spec_keys ="\x7f\xa\x7.=CLp";
 constexpr std::string_view mem_read ="hMNQ";

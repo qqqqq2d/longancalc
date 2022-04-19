@@ -10,9 +10,9 @@ extern "C" {
 }
 
 
-#define CYCLES         4  // 2 yields a heartbeat effect
+#define CYCLES       4  // 2 yields a heartbeat effect
 #define SHORT_DELAY  100  // 1/10 second
-#define LONG_DELAY  100  
+#define LONG_DELAY   100  
 
 
 const int rows = 8; // set display to four rows
