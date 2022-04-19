@@ -1,6 +1,5 @@
 #ifndef _INTERFACE_H_
 #define _INTERFACE_H_
-
 template<typename Impl>
 struct interface
 {
@@ -31,6 +30,10 @@ struct interface
 	void show_unary_result(char* operation, double result)
 	{
 		obj.show_unary_result(operation, result);
+	}
+	void set_color(display_color c)
+	{
+		obj.set_color(c);
 	}
 	void show_result(double result)
 	{

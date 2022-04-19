@@ -1,6 +1,7 @@
 #include <string_view>
 #include <string>
-#include <Arduino.h>     
+#include <Arduino.h>   
+#include "mcu.h"  
 #include "uart.h"
 extern "C" {
 #include "lcd/lcd.h"
@@ -97,7 +98,7 @@ r_index =0 ;
   LCD_ShowString(0, 16, (u8 const *) buf, RED);
   LCD_ShowString(0, 16*2, (u8 const *) buf, WHITE);
   LCD_ShowString(0, 16*3, (u8 const *) buf, BLUE);
-  LCD_ShowString(0, 16*4, (u8 const *) buf, GBLUE);
+  LCD_ShowString(0, 16*4, (u8 const *) buf, text_color);
 
 }
 
@@ -150,7 +151,7 @@ void loop()
       int val = analogRead(analogPin);  // read the input pin
       printf("Analog read:%d\n", val);
       sprintf(buf, "A%d, r_index:%d   ", val, r_index);
-      LCD_ShowString(0, 16, (u8 const *) buf, GBLUE);
+      LCD_ShowString(0, 16, (u8 const *) buf, text_color);
       return;
     }
 
@@ -200,7 +201,7 @@ void loop()
     {
       char cbuf[20];
       sprintf(cbuf, "                   ");
-      LCD_ShowString(0, 16, (u8 const *) cbuf, GBLUE);
+      LCD_ShowString(0, 16, (u8 const *) cbuf, text_color);
       r_index--;      
       buf[r_index] = '\0';
     }
@@ -215,9 +216,9 @@ void loop()
       ++r_index;    
       buf[r_index] = '\0';
     }
-    LCD_ShowString(0, 16, (u8 const *) buf, GBLUE);
+    LCD_ShowString(0, 16, (u8 const *) buf, text_color);
     //sprintf(ibuf, "%d", r_index);
-    //LCD_ShowString(0, 32, (u8 const *) ibuf, GBLUE);
+    //LCD_ShowString(0, 32, (u8 const *) ibuf, text_color);
     printf("%s\n", buf);
     
 }

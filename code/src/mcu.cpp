@@ -63,7 +63,7 @@ mcu::mcu()
 	LCD_Clear(BLACK);
 	char buf[20];
 	sprintf(buf, "kalkulaator");
-	LCD_ShowString(8*8, 0, (u8 const *) buf, GBLUE);
+	LCD_ShowString(8*8, 0, (u8 const *) buf, text_color);
 
 	for(auto r = 0; r < rows; r++)
 	{
@@ -94,64 +94,76 @@ void mcu::show_stored(int index, double mem_var)
 	char temp_buf[20];		
 	if(index == 0)
 	{
-		LCD_ShowString(0, 16*3, (u8 const *) "       ", GBLUE);
+		LCD_ShowString(0, 16*3, (u8 const *) "       ", text_color);
 		sprintf(temp_buf,"1:%.5g", mem_var);
-		LCD_ShowString(0, 16*3, (u8 const *) temp_buf, GBLUE);
+		LCD_ShowString(0, 16*3, (u8 const *) temp_buf, text_color);
 	}
 	if(index == 1)
 	{
-		LCD_ShowString(10*8, 16*3, (u8 const *) "       ", GBLUE);
+		LCD_ShowString(10*8, 16*3, (u8 const *) "       ", text_color);
 		sprintf(temp_buf,"2:%.5g", mem_var);
-		LCD_ShowString(10*8, 16*3, (u8 const *) temp_buf, GBLUE);
+		LCD_ShowString(10*8, 16*3, (u8 const *) temp_buf, text_color);
 	}
 	if(index == 2)
 	{
-		LCD_ShowString(0, 16*4, (u8 const *) "       ", GBLUE);
+		LCD_ShowString(0, 16*4, (u8 const *) "       ", text_color);
 		sprintf(temp_buf,"3:%.5g", mem_var);
-		LCD_ShowString(0, 16*4, (u8 const *) temp_buf, GBLUE);
+		LCD_ShowString(0, 16*4, (u8 const *) temp_buf, text_color);
 	}
 	if(index == 3)
 	{
-		LCD_ShowString(10*8, 16*4, (u8 const *) "       ", GBLUE);
+		LCD_ShowString(10*8, 16*4, (u8 const *) "       ", text_color);
 		sprintf(temp_buf,"4:%.5g", mem_var);
-		LCD_ShowString(10*8, 16*4, (u8 const *) temp_buf, GBLUE);
+		LCD_ShowString(10*8, 16*4, (u8 const *) temp_buf, text_color);
 	}
 }
 void mcu::show_mem_read(int index, double mem_var)
 {
 	char temp_buf[20];
 	sprintf(temp_buf,"%.10g", mem_var);
-	LCD_ShowString(0, 0, (u8 const *) temp_buf, GBLUE);
+	LCD_ShowString(0, 0, (u8 const *) temp_buf, text_color);
 }
 void mcu::show_unary_result(char* operation, double result)
 {
-	LCD_ShowString(0, 0, (u8 const *) operation, GBLUE);
+	LCD_ShowString(0, 0, (u8 const *) operation, text_color);
 	printf("unary_result:%.10g\n", result);
 	char temp_buf[20];
 	sprintf(temp_buf,"%.10g", result);
-	LCD_ShowString(0, 16, (u8 const *) temp_buf, GBLUE);
+	LCD_ShowString(0, 16, (u8 const *) temp_buf, text_color);
+}
+void mcu::set_color(display_color c)
+{
+	printf("setting color to %d\n", c);
+	if(c==display_color::blue)
+		text_color = lcd_colors::blue;
+	if(c==display_color::red)
+		text_color = lcd_colors::red;
+	if(c==display_color::green)
+		text_color = lcd_colors::green;
+	if(c==display_color::white)
+		text_color = lcd_colors::white;
 }
 void mcu::show_result(double result)
 {
 	printf("result:%.10g\n", result);
 	char temp_buf[20];
 	sprintf(temp_buf,"%.10g", result);
-	LCD_ShowString(0, 16*2, (u8 const *) temp_buf, GBLUE);
+	LCD_ShowString(0, 16*2, (u8 const *) temp_buf, text_color);
 }
 void mcu::back_space(int cur_row, int r_index)
 {
-	LCD_ShowChar(r_index*8,16*cur_row,' ',0,GBLUE);
+	LCD_ShowChar(r_index*8,16*cur_row,' ',0,text_color);
 }
 void mcu::clear(int r_index)
 {
-	LCD_ShowString(0, 0, (u8 const *) "                   ", GBLUE);
-	LCD_ShowString(0, 16, (u8 const *) "                   ", GBLUE);
-	LCD_ShowString(0, 16*2, (u8 const *) "                  ", GBLUE);
+	LCD_ShowString(0, 0, (u8 const *) "                   ", text_color);
+	LCD_ShowString(0, 16, (u8 const *) "                   ", text_color);
+	LCD_ShowString(0, 16*2, (u8 const *) "                  ", text_color);
 	//LCD_Clear(BLACK);
 }
 void mcu::add_key(int cur_row, int r_index, char key)
 {
-	LCD_ShowChar(r_index*8,16*cur_row,key,0,GBLUE);
+	LCD_ShowChar(r_index*8,16*cur_row,key,0,text_color);
 	if(debugging)
 		printf("add_key:%c, r_index:%d, cur_row:%d\n", key, r_index, cur_row);
 }
@@ -171,7 +183,7 @@ void mcu::end()
 }
 void mcu::show_a(char* a_buf)
 {
-	LCD_ShowString(0, 0, (u8 const *) a_buf, GBLUE);
+	LCD_ShowString(0, 0, (u8 const *) a_buf, text_color);
 }
 void mcu::debug(char *buf)
 {

@@ -58,9 +58,15 @@ constexpr int calc_win_width = 20;
 constexpr std::string_view numbers ="0123456789";
 constexpr std::string_view binary_op ="+-*/^";
 constexpr std::string_view unary_op ="abcZ";
+constexpr std::string_view color_op ="fIJK";
 constexpr std::string_view spec_keys ="\x7f\xa\x7.=CLp";
 constexpr std::string_view mem_read ="hMNQ";
 constexpr std::string_view mem_write ="gEFG";
-constexpr std::string_view color_keys ="fIJK";
+
+
+enum class display_color
+{
+	red, green, blue, white
+};
 
 #endif /* CA096F79_7057_4924_BEA5_7F94DB412F4A */

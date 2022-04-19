@@ -2,7 +2,12 @@
 #define F6B66ADB_11B6_4425_BD95_1890A7B31894
 #include "init_result.h"
 #include "constants.h"
+#include "lcd_colors.h"
+
 constexpr bool debugging = false;
+
+
+
 struct mcu
 {
 	mcu();
@@ -14,6 +19,7 @@ struct mcu
 	void show_stored(int index, double mem_var);
 	void show_mem_read(int index, double mem_var);
 	void show_unary_result(char* operation, double result);
+	void set_color(display_color c);
 	void show_result(double result);
 	void back_space(int cur_row, int r_index);
 	void clear(int r_index);
@@ -30,6 +36,8 @@ struct mcu
 
 	//                    c0    c1    c2   c3    c4
 	int colPins[cols] = {PC15, PC13, PB8, PB5, PB11 };
+	//unsigned int text_color = 0X07FF;
+	unsigned int text_color = lcd_colors::green;
 };
 
 

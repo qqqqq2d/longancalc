@@ -20,7 +20,7 @@ bool filter_keys(char key)
 {
 	return (string_view_contains(binary_op, key)) || (string_view_contains(unary_op, key))
 		   || (string_view_contains(spec_keys, key)) || (string_view_contains(numbers, key))
-		   || (string_view_contains(color_keys, key)) || (string_view_contains(mem_write, key)) || (string_view_contains(mem_read, key));
+		   || (string_view_contains(color_op, key)) || (string_view_contains(mem_write, key)) || (string_view_contains(mem_read, key));
 }
 
 // enum colors {
@@ -118,6 +118,19 @@ struct calculator
 		ui.show_result(result);
 		r_index = 0;
 	}
+
+	void handle_color_operation(char key)
+	{
+		if(key=='f')
+			ui.set_color(display_color::red);			
+		if(key=='I')
+			ui.set_color(display_color::green);
+		if(key=='J')
+			ui.set_color(display_color::blue);
+		if(key=='K')
+			ui.set_color(display_color::white);
+	}
+
 	void handle_unary_operation(char key)
 	{
 		char operation[40];
@@ -227,11 +240,6 @@ struct calculator
 			handle_mem_write(result_calculated, key);
 			return true;
 		}
-		if (string_view_contains(color_keys, key))
-		{
-			handle_change_color(key);
-			return true;
-		}
 		ui.debug("no mem_write");
 		if (string_view_contains(mem_read, key))
 		{
@@ -241,6 +249,12 @@ struct calculator
 		if (string_view_contains(unary_op, key))
 		{
 			handle_unary_operation(key);
+			return true;
+		}
+		if (string_view_contains(color_op, key))
+		{
+			ui.debug("handle_color_operation");
+			handle_color_operation(key);
 			return true;
 		}
 		if (key == '=' || key == '\n')
