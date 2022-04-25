@@ -4,6 +4,12 @@
 #include "print_calc.h"
 #include "init_result.h"
 
+#define RED_PAIR 1
+#define GREEN_PAIR 2
+#define BLUE_PAIR 3
+#define WHITE_PAIR 4
+
+
 struct computer
 {
 	WINDOW* debug_win_;
@@ -26,9 +32,9 @@ struct computer
 	void debug_buf(char fun, int r_index, int buf_index, char buf[42], char a_buf[20], char b_buf[20]);
 	void end();
 	void show_a(char a_buf[20]);
-	void debug(char *buf);
+	void debug(const char *buf);
 	void debug_handle_binary_operation(char fun, char * a_buf, char * b_buf, char * buf, int pos, double a, double b);
-
+	void set_color(display_color c);
 	init_result init_screen_mouse_keyb();
 
 };

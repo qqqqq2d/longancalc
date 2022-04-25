@@ -67,6 +67,13 @@ computer::computer()
 	rectangle_around_window(debug_win_height, debug_win_width, 1, debug_win_startx);
 	rectangle_around_window(calc_win_height, calc_win_width, 1, 5);
 	refresh();
+	start_color();
+	init_pair(RED_PAIR, COLOR_RED, COLOR_BLACK);
+	init_pair(GREEN_PAIR, COLOR_GREEN, COLOR_BLACK);
+	init_pair(BLUE_PAIR, COLOR_BLUE, COLOR_BLACK);
+	init_pair(WHITE_PAIR, COLOR_WHITE, COLOR_BLACK);
+	wattron(debug_win_, COLOR_PAIR(GREEN_PAIR));
+
 	mvwprintw(debug_win_, 0, 0, "GCC version:%s", __VERSION__);
 	wrefresh(debug_win_);
 
@@ -74,6 +81,8 @@ computer::computer()
 	const auto mouse_status = (result_ == init_result::success) ? "mouse success" : "mouse error";
 	mvwprintw(debug_win_, 1, 0, mouse_status);
 	wrefresh(debug_win_);
+
+
 }
 
 void computer::fill_keyboard_grid()
@@ -194,9 +203,23 @@ void computer::show_a(char* a_buf)
 	wrefresh(calc_win_);
 }
 
-void computer::debug(char *buf)
+void computer::debug(const char *buf)
 {
 	mvwprintw(debug_win_, 10, 0,buf);
+}
+
+void computer::set_color(display_color c)
+{
+	int index = 0;
+	if(c == display_color::blue)
+		index = BLUE_PAIR;
+	else if(c == display_color::green)
+		index = GREEN_PAIR;
+	else if(c == display_color::red)
+		index = RED_PAIR;
+	else if(c == display_color::white)
+		index = WHITE_PAIR;
+	wattron(calc_win_, COLOR_PAIR(index));
 }
 
 init_result computer::init_screen_mouse_keyb()

@@ -63,7 +63,7 @@ struct interface
 	{
 		obj.show_a(a_buf);
 	}
-	void debug(char *buf)
+	void debug(const char *buf)
 	{
 		obj.debug(buf);
 	}
