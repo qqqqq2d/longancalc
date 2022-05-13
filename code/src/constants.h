@@ -57,7 +57,7 @@ constexpr int calc_win_width = 20;
 
 constexpr std::string_view numbers ="0123456789";
 constexpr std::string_view binary_op ="+-*/^";
-constexpr std::string_view unary_op ="abcZ";
+constexpr std::string_view unary_op ="abcZS";
 constexpr std::string_view color_op ="fIJK";
 constexpr std::string_view spec_keys ="\x7f\xa\x7.=CLp";
 constexpr std::string_view mem_read ="hMNQ";

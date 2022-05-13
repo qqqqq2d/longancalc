@@ -115,8 +115,14 @@ struct calculator
 		{
 			result = pow(a, b);
 		}
+		ui.show_a(a_buf);
 		ui.show_result(result);
-		r_index = 0;
+		//r_index = 0;
+		sprintf(a_buf, "%.10g", result);
+		a = result;
+		r_index = strlen(a_buf);
+		buf_index = r_index;
+		strcpy(buf, a_buf);
 	}
 
 	void handle_color_operation(char key)
@@ -156,8 +162,20 @@ struct calculator
 			result = 1 / a;
 			sprintf(operation, "1/%s", a_buf);
 		}
+		if (key == 'S')
+		{
+			result = 0 - a;
+			sprintf(operation, "+/-%s", a_buf);
+			ui.debug("+/-");
+			a = 0-a;
+
+		}
 		ui.show_unary_result(operation, result);
-		r_index = 0;
+		sprintf(a_buf, "%.10g", result);
+		a = result;
+		r_index = strlen(a_buf);
+		buf_index = r_index;
+		strcpy(buf, a_buf);
 	}
 	void handle_mem_read(char key)
 	{

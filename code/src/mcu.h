@@ -27,7 +27,7 @@ struct mcu
 	void debug_buf(char fun, int r_index, int buf_index, char buf[42], char a_buf[20], char b_buf[20]);
 	void end();
 	void show_a(char a_buf[20]);
-	void debug(char *buf);
+	void debug(const char *buf);
 	void debug_handle_binary_operation(char fun, char * a_buf, char * b_buf, char * buf, int pos, double a, double b);
 
 	init_result init_screen_mouse_keyb();

@@ -125,11 +125,11 @@ void mcu::show_mem_read(int index, double mem_var)
 }
 void mcu::show_unary_result(char* operation, double result)
 {
-	LCD_ShowString(0, 0, (u8 const *) operation, text_color);
+	LCD_ShowString(0, 16, (u8 const *) operation, text_color);
 	printf("unary_result:%.10g\n", result);
 	char temp_buf[20];
 	sprintf(temp_buf,"%.10g", result);
-	LCD_ShowString(0, 16, (u8 const *) temp_buf, text_color);
+	LCD_ShowString(0, 0, (u8 const *) temp_buf, text_color);
 }
 void mcu::set_color(display_color c)
 {
@@ -185,7 +185,7 @@ void mcu::show_a(char* a_buf)
 {
 	LCD_ShowString(0, 0, (u8 const *) a_buf, text_color);
 }
-void mcu::debug(char *buf)
+void mcu::debug(const char *buf)
 {
 	printf("debug:%s\n", buf);
 }
