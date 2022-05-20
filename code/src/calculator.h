@@ -234,6 +234,20 @@ struct calculator
 			pi();
 			return true;
 		}
+		if (key == 'H')//patarei pinge
+		{
+			double k = 0.00138;
+			int val = analogRead(analogPin);
+			double voltage = k*val;
+			char tmp_buf[30];
+			sprintf(tmp_buf, "bat:%.5gV", voltage);
+			ui.debug(tmp_buf);
+			ui.show_bat(tmp_buf);
+			return true;
+		}
+
+
+
 		if (key == 'q')
 		{
 			return false;

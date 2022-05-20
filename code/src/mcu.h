@@ -6,7 +6,7 @@
 
 constexpr bool debugging = false;
 
-
+constexpr int analogPin = PA3;
 
 struct mcu
 {
@@ -28,6 +28,7 @@ struct mcu
 	void end();
 	void show_a(char a_buf[20]);
 	void debug(const char *buf);
+	void show_bat(const char *buf);
 	void debug_handle_binary_operation(char fun, char * a_buf, char * b_buf, char * buf, int pos, double a, double b);
 
 	init_result init_screen_mouse_keyb();
@@ -38,6 +39,7 @@ struct mcu
 	int colPins[cols] = {PC15, PC13, PB8, PB5, PB11 };
 	//unsigned int text_color = 0X07FF;
 	unsigned int text_color = lcd_colors::green;
+	
 };
 
 

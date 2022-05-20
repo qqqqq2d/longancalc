@@ -189,6 +189,10 @@ void mcu::debug(const char *buf)
 {
 	printf("debug:%s\n", buf);
 }
+void mcu::show_bat(const char *buf)
+{
+	LCD_ShowString(8*8, 0, (u8 const *) buf, text_color);
+}
 init_result mcu::init_screen_mouse_keyb()
 {
 	return init_result::success;

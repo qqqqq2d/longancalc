@@ -67,6 +67,10 @@ struct interface
 	{
 		obj.debug(buf);
 	}
+	void show_bat(const char *buf)
+	{
+		obj.show_bat(buf);
+	}
 	void debug_handle_binary_operation(char fun, char * a_buf, char * b_buf, char * buf, int pos, double a, double b)
 	{
 		obj.debug_handle_binary_operation(fun, a_buf, b_buf, buf, pos, a, b);
